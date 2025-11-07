@@ -56,6 +56,12 @@
             color="yellow">
         </a-text>
     
+        
+    </a-entity>
+
+    <a-entity id="scene2" visible="false" light="defaultLightsEnabled: false">
+        
+    
     </a-entity>
 
     <!-- sky sphere - FIXED -->
@@ -98,17 +104,21 @@
 
         function scene1(){
             sky.setAttribute('material', 'src', './images/check2.jpg');
-            
         }
-        
-        document.getElementById('start_scene1').addEventListener('click',()=>{
             
-        document.getElementById('scene1').setAttribute('visible','true')
+        function scene2(){
+            sky.setAttribute('material', 'src', './images/passendorf_snow_4k.png');
+            document.getElementById('scene2').setAttribute('visible','true');
+            document.getElementById('scene1').setAttribute('visible','false');
+        }
+
+        document.getElementById('start_scene1').addEventListener('click',()=>{
+            document.getElementById('scene1').setAttribute('visible','true')
             document.getElementById('intro_page').style.display='none';
             scene.setAttribute('visible','true');
             if (scene) {
                 scene.enterVR();
-                scene1();
+                scene2();
             }
         });
 
@@ -118,7 +128,7 @@
 
 
     <script>
-          const object1_text = document.getElementById('object1_text');
+        const object1_text = document.getElementById('object1_text');
         const object_plane = document.getElementById('object_plane');
         const gazeData = {
             object1: { time: 0 },

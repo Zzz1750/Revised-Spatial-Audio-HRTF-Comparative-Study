@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>360° Video Button Play</title>
+  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; background: black; overflow: hidden; }
+    #playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      font-size: 24px;
+      cursor: pointer;
+      background: #f39c12;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Button to start video -->
+  <button id="playButton">Play 360° Video</button>
+
+  <a-scene>
+    <a-assets>
+      <video id="my360video" src="./images/washout1.mp4" loop crossorigin="anonymous" playsinline webkit-playsinline></video>
+    </a-assets>
+
+    <a-videosphere id="videosphere" src="#my360video" radius="5000" visible="false"></a-videosphere>
+
+    <a-camera wasd-controls-enabled="false" look-controls="enabled: true"></a-camera>
+  </a-scene>
+
+  <script>
+    const button = document.getElementById('playButton');
+    const video = document.getElementById('my360video');
+    const sphere = document.getElementById('videosphere');
+
+    button.addEventListener('click', () => {
+      video.play();           // Start video
+      sphere.setAttribute('visible', true); // Show the videosphere
+      button.style.display = 'none'; // Hide button
+    });
+  </script>
+
+</body>
+</html>
