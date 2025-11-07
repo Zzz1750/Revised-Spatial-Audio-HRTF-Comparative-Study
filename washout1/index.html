@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>VR Gun Controllers with Raycast</title>
+    <title>VR Gun Controller Replacement</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^3.0.3/dist/aframe-event-set-component.min.js"></script>
 </head>
@@ -11,60 +11,44 @@
         background="color: #222222"
         device-orientation-permission-ui="enabled: false">
         
-        <!-- Left Controller with Gun -->
-        <a-entity id="leftController" laser-controls="hand: left">
-            <!-- Gun Model - Replace with your local model -->
+        <!-- Left Gun Controller -->
+        <a-entity id="leftGun" laser-controls="hand: left">
+            <!-- Gun Model - Reduced size and positioned as controller replacement -->
             <a-entity 
                 class="gun"
                 gltf-model="#gunModel"
-                scale="0.1 0.1 0.1"
-                position="0.1 -0.1 -0.2"
+                scale="0.05 0.05 0.05" <!-- Reduced size -->
+                position="0 0 0" <!-- Centered on controller -->
                 rotation="0 -90 90">
-                
-                <!-- Raycast Visual -->
-                <a-entity 
-                    class="raycast"
-                    raycaster="objects: .target; showLine: true"
-                    line="color: red; opacity: 0.8"
-                    visible="false">
-                </a-entity>
                 
                 <!-- Muzzle Flash -->
                 <a-entity 
                     class="muzzle-flash"
                     geometry="primitive: plane"
                     material="color: yellow; transparent: true; opacity: 0"
-                    scale="0.1 0.1 0.1"
+                    scale="0.05 0.05 0.05" <!-- Reduced size -->
                     position="0 0.5 -1"
                     visible="false">
                 </a-entity>
             </a-entity>
         </a-entity>
 
-        <!-- Right Controller with Gun -->
-        <a-entity id="rightController" laser-controls="hand: right">
-            <!-- Gun Model - Replace with your local model -->
+        <!-- Right Gun Controller -->
+        <a-entity id="rightGun" laser-controls="hand: right">
+            <!-- Gun Model - Reduced size and positioned as controller replacement -->
             <a-entity 
                 class="gun"
                 gltf-model="#gunModel"
-                scale="0.1 0.1 0.1"
-                position="-0.1 -0.1 -0.2"
+                scale="0.05 0.05 0.05" <!-- Reduced size -->
+                position="0 0 0" <!-- Centered on controller -->
                 rotation="0 90 -90">
-                
-                <!-- Raycast Visual -->
-                <a-entity 
-                    class="raycast"
-                    raycaster="objects: .target; showLine: true"
-                    line="color: red; opacity: 0.8"
-                    visible="false">
-                </a-entity>
                 
                 <!-- Muzzle Flash -->
                 <a-entity 
                     class="muzzle-flash"
                     geometry="primitive: plane"
                     material="color: yellow; transparent: true; opacity: 0"
-                    scale="0.1 0.1 0.1"
+                    scale="0.05 0.05 0.05" <!-- Reduced size -->
                     position="0 0.5 -1"
                     visible="false">
                 </a-entity>
@@ -123,7 +107,6 @@
         // Custom component for gun behavior
         AFRAME.registerComponent('gun-controller', {
             init: function() {
-                this.raycaster = this.el.querySelector('.raycast');
                 this.muzzleFlash = this.el.querySelector('.muzzle-flash');
                 this.isShooting = false;
                 
@@ -141,21 +124,32 @@
             shoot: function() {
                 this.isShooting = true;
                 
-                // Show raycast line
-                this.raycaster.setAttribute('visible', 'true');
-                
                 // Show muzzle flash
                 this.muzzleFlash.setAttribute('visible', 'true');
                 this.muzzleFlash.setAttribute('material', 'opacity', 1);
                 
-                // Perform raycast
-                this.raycaster.components.raycaster.refreshObjects();
-                const intersections = this.raycaster.components.raycaster.intersections;
+                // Perform raycast directly from the gun
+                const gunPosition = new THREE.Vector3();
+                const gunDirection = new THREE.Vector3();
+                
+                this.el.object3D.getWorldPosition(gunPosition);
+                this.el.object3D.getWorldDirection(gunDirection);
+                
+                // Create a raycaster for this shot
+                const raycaster = new THREE.Raycaster();
+                raycaster.set(gunPosition, gunDirection);
+                
+                // Get all target elements
+                const targets = Array.from(document.querySelectorAll('.target'));
+                const targetMeshes = targets.map(target => target.object3D);
+                
+                // Check for intersections
+                const intersections = raycaster.intersectObjects(targetMeshes, true);
                 
                 if (intersections.length > 0) {
-                    const target = intersections[0].object.el;
-                    if (target.classList.contains('target')) {
-                        this.hitTarget(target);
+                    const targetEl = intersections[0].object.el;
+                    if (targetEl && targetEl.classList.contains('target')) {
+                        this.hitTarget(targetEl);
                     }
                 }
                 
@@ -167,7 +161,6 @@
             
             stopShooting: function() {
                 this.isShooting = false;
-                this.raycaster.setAttribute('visible', 'false');
             },
             
             hitTarget: function(target) {
