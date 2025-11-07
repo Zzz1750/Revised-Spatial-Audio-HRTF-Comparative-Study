@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>VR Gun Controller Replacement</title>
+    <title>VR Gun Controller for Meta Quest 2</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@^3.0.3/dist/aframe-event-set-component.min.js"></script>
 </head>
@@ -9,16 +9,22 @@
     <a-scene 
         vr-mode-ui="enabled: true" 
         background="color: #222222"
-        device-orientation-permission-ui="enabled: false">
+        device-orientation-permission-ui="enabled: false"
+        cursor="rayOrigin: mouse">
         
+        <!-- Camera Rig -->
+        <a-entity id="rig" movement-controls position="0 1.6 0">
+            <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
+        </a-entity>
+
         <!-- Left Gun Controller -->
-        <a-entity id="leftGun" laser-controls="hand: left">
-            <!-- Gun Model - Reduced size and positioned as controller replacement -->
+        <a-entity id="leftGun" oculus-touch-controls="hand: left">
+            <!-- Gun Model -->
             <a-entity 
                 class="gun"
                 gltf-model="#gunModel"
-                scale="0.05 0.05 0.05"
-                position="0.05 -0.05 -0.1"
+                scale="0.03 0.03 0.03"
+                position="0.02 0.01 -0.05"
                 rotation="0 0 0">
                 
                 <!-- Raycast Visual -->
@@ -34,21 +40,21 @@
                     class="muzzle-flash"
                     geometry="primitive: plane"
                     material="color: yellow; transparent: true; opacity: 0"
-                    scale="0.05 0.05 0.05"
-                    position="0 0.2 -0.5"
+                    scale="0.1 0.1 0.1"
+                    position="0 0.3 -1"
                     visible="false">
                 </a-entity>
             </a-entity>
         </a-entity>
 
         <!-- Right Gun Controller -->
-        <a-entity id="rightGun" laser-controls="hand: right">
-            <!-- Gun Model - Reduced size and positioned as controller replacement -->
+        <a-entity id="rightGun" oculus-touch-controls="hand: right">
+            <!-- Gun Model -->
             <a-entity 
                 class="gun"
                 gltf-model="#gunModel"
-                scale="0.05 0.05 0.05"
-                position="-0.05 -0.05 -0.1"
+                scale="0.03 0.03 0.03"
+                position="-0.02 0.01 -0.05"
                 rotation="0 0 0">
                 
                 <!-- Raycast Visual -->
@@ -64,17 +70,21 @@
                     class="muzzle-flash"
                     geometry="primitive: plane"
                     material="color: yellow; transparent: true; opacity: 0"
-                    scale="0.05 0.05 0.05"
-                    position="0 0.2 -0.5"
+                    scale="0.1 0.1 0.1"
+                    position="0 0.3 -1"
                     visible="false">
                 </a-entity>
             </a-entity>
         </a-entity>
 
-        <!-- Gun Model Asset - Using a placeholder since we don't have the actual model -->
+        <!-- Gun Model Asset - Using a visible placeholder -->
         <a-assets>
-            <!-- Using a simple box as a placeholder for the gun model -->
-            <a-box id="gunModel" color="#8B4513" width="0.5" height="0.2" depth="1.5"></a-box>
+            <!-- Simple gun placeholder that will be visible -->
+            <a-entity id="gunModel">
+                <a-box position="0 0 -0.5" width="0.1" height="0.1" depth="1" color="#8B4513"></a-box>
+                <a-box position="0 0.1 -0.2" width="0.3" height="0.05" depth="0.3" color="#2F2F2F"></a-box>
+                <a-cylinder position="0 0.15 0.1" radius="0.05" height="0.1" color="#555555"></a-cylinder>
+            </a-entity>
         </a-assets>
 
         <!-- Targets -->
@@ -128,8 +138,11 @@
                 this.muzzleFlash = this.el.querySelector('.muzzle-flash');
                 this.isShooting = false;
                 
+                console.log('Gun controller initialized for', this.el.parentNode.id);
+                
                 // Trigger down event
                 this.el.addEventListener('triggerdown', () => {
+                    console.log('Trigger pressed');
                     this.shoot();
                 });
                 
@@ -156,6 +169,7 @@
                 if (intersections.length > 0) {
                     const target = intersections[0].object.el;
                     if (target.classList.contains('target')) {
+                        console.log('Target hit!');
                         this.hitTarget(target);
                     }
                 }
@@ -164,11 +178,15 @@
                 setTimeout(() => {
                     this.muzzleFlash.setAttribute('material', 'opacity', 0);
                 }, 100);
+                
+                // Hide raycast after delay
+                setTimeout(() => {
+                    this.raycaster.setAttribute('visible', 'false');
+                }, 200);
             },
             
             stopShooting: function() {
                 this.isShooting = false;
-                this.raycaster.setAttribute('visible', 'false');
             },
             
             hitTarget: function(target) {
@@ -217,9 +235,32 @@
             }
         });
 
-        // Add gun controller component to both guns
-        document.querySelectorAll('.gun').forEach(gun => {
-            gun.setAttribute('gun-controller', '');
+        // Component to hide default controller models
+        AFRAME.registerComponent('hide-controller-model', {
+            init: function() {
+                // Hide the default controller model
+                this.el.addEventListener('model-loaded', () => {
+                    const model = this.el.getObject3D('mesh');
+                    if (model) {
+                        model.visible = false;
+                    }
+                });
+            }
+        });
+
+        // Add components after scene loads
+        document.querySelector('a-scene').addEventListener('loaded', function() {
+            // Add gun controller component to both guns
+            document.querySelectorAll('.gun').forEach(gun => {
+                gun.setAttribute('gun-controller', '');
+            });
+            
+            // Add hide-controller-model to both controllers
+            document.querySelectorAll('[oculus-touch-controls]').forEach(controller => {
+                controller.setAttribute('hide-controller-model', '');
+            });
+            
+            console.log('Scene loaded, components added');
         });
 
         // Add teleport controls for movement
@@ -237,11 +278,11 @@
                 this.el.appendChild(this.teleportCursor);
                 
                 // Trackpad events for teleportation
-                this.el.addEventListener('trackpaddown', (evt) => {
+                this.el.addEventListener('thumbstickdown', (evt) => {
                     this.startTeleport();
                 });
                 
-                this.el.addEventListener('trackpadup', (evt) => {
+                this.el.addEventListener('thumbstickup', (evt) => {
                     if (this.isTeleporting) {
                         this.teleport();
                     }
@@ -262,7 +303,7 @@
                 this.teleportCursor.object3D.getWorldPosition(worldPos);
                 
                 // Teleport the camera rig
-                const cameraRig = document.querySelector('[camera]').parentEl;
+                const cameraRig = document.querySelector('#rig');
                 cameraRig.setAttribute('position', {
                     x: worldPos.x,
                     y: 0,
@@ -272,7 +313,7 @@
         });
 
         // Add teleport controls to controllers
-        document.querySelectorAll('[laser-controls]').forEach(controller => {
+        document.querySelectorAll('[oculus-touch-controls]').forEach(controller => {
             controller.setAttribute('teleport-controls', '');
         });
     </script>
@@ -284,14 +325,10 @@
             font-family: Arial, sans-serif;
         }
         
-        /* Hide the default controller models */
-        .a-entity [laser-controls] [raycaster] {
-            display: none;
-        }
-        
-        /* Hide the default laser controls cursor */
-        .a-entity [laser-controls] [cursor] {
-            display: none;
+        /* Hide default controller models completely */
+        [oculus-touch-controls] .controller-model {
+            display: none !important;
+            visibility: hidden !important;
         }
         
         /* Style the gun models */
@@ -330,16 +367,52 @@
         .instructions li {
             margin-bottom: 8px;
         }
+        
+        /* Debug info */
+        .debug {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            background-color: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
     </style>
     
     <div class="instructions">
-        <h3>VR Gun Controller</h3>
+        <h3>Meta Quest 2 Gun Controller</h3>
         <ul>
-            <li>Use VR controllers to pick up guns</li>
+            <li>Guns should appear in place of controllers</li>
             <li>Pull trigger to shoot targets</li>
-            <li>Use trackpad to teleport</li>
+            <li>Use thumbstick to teleport</li>
             <li>Targets have different health levels</li>
         </ul>
     </div>
+    
+    <div class="debug" id="debugInfo">
+        Loading...
+    </div>
+
+    <script>
+        // Debug info
+        window.addEventListener('load', function() {
+            const debugEl = document.getElementById('debugInfo');
+            setInterval(() => {
+                const leftController = document.getElementById('leftGun');
+                const rightController = document.getElementById('rightGun');
+                const leftGun = leftController ? leftController.querySelector('.gun') : null;
+                const rightGun = rightController ? rightController.querySelector('.gun') : null;
+                
+                debugEl.innerHTML = `
+                    Left Controller: ${leftController ? 'Found' : 'Missing'}<br>
+                    Right Controller: ${rightController ? 'Found' : 'Missing'}<br>
+                    Left Gun: ${leftGun ? 'Visible' : 'Missing'}<br>
+                    Right Gun: ${rightGun ? 'Visible' : 'Missing'}
+                `;
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
