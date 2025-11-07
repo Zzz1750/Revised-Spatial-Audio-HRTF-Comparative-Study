@@ -1,170 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>A-Frame VR — Dual Gun Controllers</title>
-    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <!-- Extras: glTF model support is built-in; we add a small component for firing/recoil -->
-    <script>
-      AFRAME.registerComponent('gun-behavior', {
-        schema: {
-          bulletSpeed: { type: 'number', default: 10 },
-          cooldown: { type: 'number', default: 200 }, // ms
-          muzzleOffset: { type: 'vec3', default: { x: 0, y: 0, z: -0.5 } }
-        },
-        init: function () {
-          this.ready = true;
-          this.onTriggerDown = this.onTriggerDown.bind(this);
-          this.el.addEventListener('triggerdown', this.onTriggerDown);
-          this.el.addEventListener('gripdown', this.onTriggerDown); // extra compatibility
-        },
-        remove: function () {
-          this.el.removeEventListener('triggerdown', this.onTriggerDown);
-          this.el.removeEventListener('gripdown', this.onTriggerDown);
-        },
-        onTriggerDown: function () {
-          if (!this.ready) return;
-          this.ready = false;
-          const data = this.data;
-          // spawn a simple bullet
-          const sceneEl = this.el.sceneEl;
-          const bullet = document.createElement('a-sphere');
-          bullet.setAttribute('radius', 0.03);
-          bullet.setAttribute('position', '0 0 0');
-          bullet.setAttribute('class', 'bullet');
-          // convert local muzzle offset to world position
-          const muzzle = new THREE.Vector3(data.muzzleOffset.x, data.muzzleOffset.y, data.muzzleOffset.z);
-          const worldPos = new THREE.Vector3();
-          this.el.object3D.localToWorld(muzzle);
-          worldPos.copy(muzzle).applyMatrix4(this.el.object3D.matrixWorld);
-
-          bullet.object3D.position.copy(worldPos);
-
-          // give bullet velocity along controller's -z axis in world space
-          const forward = new THREE.Vector3(0, 0, -1);
-          forward.applyQuaternion(this.el.object3D.getWorldQuaternion(new THREE.Quaternion()));
-          forward.normalize();
-
-          bullet.setAttribute('velocity', {
-            x: forward.x * data.bulletSpeed,
-            y: forward.y * data.bulletSpeed,
-            z: forward.z * data.bulletSpeed
-          });
-
-          // simple material and life
-          bullet.setAttribute('material', 'color: #ffcc00; emissive: #ff8800');
-
-          sceneEl.appendChild(bullet);
-
-          // small recoil animation on the gun model
-          const gunModel = this.el.querySelector('[data-gun-model]');
-          if (gunModel) {
-            gunModel.object3D.position.z -= 0.05;
-            setTimeout(() => {
-              gunModel.object3D.position.z += 0.05;
-            }, 80);
-          }
-
-          // cleanup + cooldown
-          setTimeout(() => {
-            if (bullet && bullet.parentNode) bullet.parentNode.removeChild(bullet);
-          }, 3000);
-
-          setTimeout(() => (this.ready = true), data.cooldown);
-        }
-      });
-
-      // tiny velocity component using tick
-      AFRAME.registerComponent('velocity', {
-        schema: { x: { type: 'number', default: 0 }, y: { type: 'number', default: 0 }, z: { type: 'number', default: 0 } },
-        tick: function (t, dt) {
-          const d = dt / 1000;
-          this.el.object3D.position.x += this.data.x * d;
-          this.el.object3D.position.y += this.data.y * d;
-          this.el.object3D.position.z += this.data.z * d;
-          // simple collision ground check (remove when y < -20)
-          if (this.el.object3D.position.y < -20) {
-            if (this.el.parentNode) this.el.parentNode.removeChild(this.el);
-          }
-        }
-      });
-    </script>
-    <style>
-      body { margin: 0; font-family: sans-serif; }
-      .ui { position: absolute; left: 16px; top: 16px; color: white; z-index: 999; }
-      .ui small { opacity: 0.8 }
-    </style>
-  </head>
-  <body>
-    <div class="ui">
-      <div>Put on headset and press the VR button; use triggers to fire.</div>
-      <small>Replace the placeholder model URL in the <code>gltf-model</code> attributes with your gun model (.glb/.gltf)</small>
-    </div>
-
-    <a-scene background="color: #20232a" vr-mode-ui="enterVRButton: true">
-      <a-assets>
-        <!-- Replace these with your own URLs or file paths. Example: url(models/my_gun.glb) -->
-        <a-asset-item id="gunModel" src="url(/models/gun.glb)"></a-asset-item>
-        <audio id="shootSound" src="/sounds/pistol-shot.wav"></audio>
-      </a-assets>
-
-      <!-- Environment -->
-      <a-entity position="0 1.6 0">
-        <a-sky color="#111"></a-sky>
-      </a-entity>
-
-      <a-entity id="cameraRig">
-        <a-entity id="head" camera look-controls wasd-controls position="0 1.6 0"></a-entity>
-
-        <!-- Left controller setup: supports multiple controller types for compatibility. 
-             The krux: a child entity with the model attaches to the controller so it always follows it. -->
-        <a-entity id="leftController"
-                  vive-controls="hand: left"
-                  oculus-touch-controls="hand: left"
-                  windows-motion-controls="hand: left"
-                  hand-tracking-controls="hand: left"
-                  tracked-controls-webxr="hand: left"
-                  gun-behavior="muzzleOffset: 0 0 -0.4; bulletSpeed: 12"
-                  raycaster="objects: .interactable">
-          <!-- The model attached to the controller. Use data-gun-model attribute so JS finds it for recoil -->
-          <a-entity data-gun-model
-                    gltf-model="#gunModel"
-                    scale="0.6 0.6 0.6"
-                    position="0 -0.02 -0.04"
-                    rotation="0 90 0"></a-entity>
+<html>
+<head>
+    <title>VR Gun Controllers with Raycast</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@^3.0.3/dist/aframe-event-set-component.min.js"></script>
+</head>
+<body>
+    <a-scene 
+        vr-mode-ui="enabled: true" 
+        background="color: #222222"
+        device-orientation-permission-ui="enabled: false">
+        
+        <!-- Left Controller with Gun -->
+        <a-entity id="leftController" laser-controls="hand: left">
+            <!-- Gun Model - Replace with your local model -->
+            <a-entity 
+                class="gun"
+                gltf-model="#gunModel"
+                scale="0.1 0.1 0.1"
+                position="0.1 -0.1 -0.2"
+                rotation="0 -90 90">
+                
+                <!-- Raycast Visual -->
+                <a-entity 
+                    class="raycast"
+                    raycaster="objects: .target; showLine: true"
+                    line="color: red; opacity: 0.8"
+                    visible="false">
+                </a-entity>
+                
+                <!-- Muzzle Flash -->
+                <a-entity 
+                    class="muzzle-flash"
+                    geometry="primitive: plane"
+                    material="color: yellow; transparent: true; opacity: 0"
+                    scale="0.1 0.1 0.1"
+                    position="0 0.5 -1"
+                    visible="false">
+                </a-entity>
+            </a-entity>
         </a-entity>
 
-        <!-- Right controller -->
-        <a-entity id="rightController"
-                  vive-controls="hand: right"
-                  oculus-touch-controls="hand: right"
-                  windows-motion-controls="hand: right"
-                  hand-tracking-controls="hand: right"
-                  tracked-controls-webxr="hand: right"
-                  gun-behavior="muzzleOffset: 0 0 -0.4; bulletSpeed: 12">
-          <a-entity data-gun-model
-                    gltf-model="#gunModel"
-                    scale="0.6 0.6 0.6"
-                    position="0 -0.02 -0.04"
-                    rotation="0 90 0"></a-entity>
+        <!-- Right Controller with Gun -->
+        <a-entity id="rightController" laser-controls="hand: right">
+            <!-- Gun Model - Replace with your local model -->
+            <a-entity 
+                class="gun"
+                gltf-model="#gunModel"
+                scale="0.1 0.1 0.1"
+                position="-0.1 -0.1 -0.2"
+                rotation="0 90 -90">
+                
+                <!-- Raycast Visual -->
+                <a-entity 
+                    class="raycast"
+                    raycaster="objects: .target; showLine: true"
+                    line="color: red; opacity: 0.8"
+                    visible="false">
+                </a-entity>
+                
+                <!-- Muzzle Flash -->
+                <a-entity 
+                    class="muzzle-flash"
+                    geometry="primitive: plane"
+                    material="color: yellow; transparent: true; opacity: 0"
+                    scale="0.1 0.1 0.1"
+                    position="0 0.5 -1"
+                    visible="false">
+                </a-entity>
+            </a-entity>
         </a-entity>
 
-      </a-entity>
+        <!-- Gun Model Asset - REPLACE THIS WITH YOUR LOCAL MODEL PATH -->
+        <a-assets>
+            <a-asset-item id="gunModel" src="gun.glb"></a-asset-item>
+        </a-assets>
 
-      <!-- Simple floor and a target box to show bullets hitting -->
-      <a-box position="0 0 -4" depth="0.5" height="1.5" width="1.5" color="#444" class="interactable"></a-box>
-      <a-plane rotation="-90 0 0" width="20" height="20" position="0 -0.01 0" color="#070707"></a-plane>
+        <!-- Targets -->
+        <a-entity id="targets">
+            <a-box 
+                class="target"
+                position="0 1.5 -3"
+                width="1" height="1" depth="0.1"
+                color="#4CC3D9"
+                data-health="3">
+            </a-box>
+            
+            <a-sphere 
+                class="target"
+                position="2 1.5 -4"
+                radius="0.5"
+                color="#EF2D5E"
+                data-health="2">
+            </a-sphere>
+            
+            <a-cylinder 
+                class="target"
+                position="-2 1.5 -4"
+                radius="0.5" height="1"
+                color="#FFC65D"
+                data-health="1">
+            </a-cylinder>
+        </a-entity>
 
-      <!-- Ambient lights -->
-      <a-entity light="type: ambient; intensity: 0.6"></a-entity>
-      <a-entity light="type: directional; intensity: 0.8" position="1 1 0"></a-entity>
+        <!-- Environment -->
+        <a-plane 
+            position="0 0 -4" 
+            rotation="-90 0 0" 
+            width="10" 
+            height="10" 
+            color="#7BC8A4">
+        </a-plane>
 
-      <!-- Fallback cursor for non-VR (click to fire using mouse) -->
-      <a-entity cursor="rayOrigin: mouse" raycaster="objects: .interactable"
-                position="0 0 -1" geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
-                material="color: #fff; shader: flat" ></a-entity>
+        <a-sky color="#87CEEB"></a-sky>
 
+        <!-- Lighting -->
+        <a-entity light="type: ambient; color: #BBB"></a-entity>
+        <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
     </a-scene>
-  </body>
+
+    <script>
+        // Custom component for gun behavior
+        AFRAME.registerComponent('gun-controller', {
+            init: function() {
+                this.raycaster = this.el.querySelector('.raycast');
+                this.muzzleFlash = this.el.querySelector('.muzzle-flash');
+                this.isShooting = false;
+                
+                // Trigger down event
+                this.el.addEventListener('triggerdown', () => {
+                    this.shoot();
+                });
+                
+                // Trigger up event
+                this.el.addEventListener('triggerup', () => {
+                    this.stopShooting();
+                });
+            },
+            
+            shoot: function() {
+                this.isShooting = true;
+                
+                // Show raycast line
+                this.raycaster.setAttribute('visible', 'true');
+                
+                // Show muzzle flash
+                this.muzzleFlash.setAttribute('visible', 'true');
+                this.muzzleFlash.setAttribute('material', 'opacity', 1);
+                
+                // Perform raycast
+                this.raycaster.components.raycaster.refreshObjects();
+                const intersections = this.raycaster.components.raycaster.intersections;
+                
+                if (intersections.length > 0) {
+                    const target = intersections[0].object.el;
+                    if (target.classList.contains('target')) {
+                        this.hitTarget(target);
+                    }
+                }
+                
+                // Hide muzzle flash after delay
+                setTimeout(() => {
+                    this.muzzleFlash.setAttribute('material', 'opacity', 0);
+                }, 100);
+            },
+            
+            stopShooting: function() {
+                this.isShooting = false;
+                this.raycaster.setAttribute('visible', 'false');
+            },
+            
+            hitTarget: function(target) {
+                // Get current health
+                let health = parseInt(target.getAttribute('data-health')) || 1;
+                health--;
+                
+                if (health <= 0) {
+                    // Target destroyed
+                    target.parentNode.removeChild(target);
+                    
+                    // Create explosion effect
+                    this.createExplosion(target.object3D.position);
+                } else {
+                    // Update health and change color based on health
+                    target.setAttribute('data-health', health);
+                    
+                    // Flash effect
+                    const originalColor = target.getAttribute('material').color;
+                    target.setAttribute('material', 'color', '#FFFFFF');
+                    
+                    setTimeout(() => {
+                        const colors = ['#4CC3D9', '#EF2D5E', '#FFC65D'];
+                        target.setAttribute('material', 'color', colors[health - 1] || '#FF0000');
+                    }, 100);
+                }
+            },
+            
+            createExplosion: function(position) {
+                const explosion = document.createElement('a-entity');
+                explosion.setAttribute('position', position);
+                explosion.setAttribute('particle-system', {
+                    preset: 'default',
+                    color: '#FF9500, #FF4D00',
+                    particleCount: 30,
+                    velocityValue: '2 2 2',
+                    accelerationValue: '0 -3 0'
+                });
+                
+                this.el.sceneEl.appendChild(explosion);
+                
+                // Remove explosion after 1 second
+                setTimeout(() => {
+                    this.el.sceneEl.removeChild(explosion);
+                }, 1000);
+            }
+        });
+
+        // Add gun controller component to both guns
+        document.querySelectorAll('.gun').forEach(gun => {
+            gun.setAttribute('gun-controller', '');
+        });
+
+        // Add teleport controls for movement
+        AFRAME.registerComponent('teleport-controls', {
+            init: function() {
+                this.teleportCursor = null;
+                this.isTeleporting = false;
+                
+                // Create teleport cursor
+                this.teleportCursor = document.createElement('a-entity');
+                this.teleportCursor.setAttribute('geometry', 'primitive: ring; radiusInner: 0.8; radiusOuter: 1;');
+                this.teleportCursor.setAttribute('material', 'color: white; shader: flat;');
+                this.teleportCursor.setAttribute('position', '0 0.1 0');
+                this.teleportCursor.setAttribute('visible', 'false');
+                this.el.appendChild(this.teleportCursor);
+                
+                // Trackpad events for teleportation
+                this.el.addEventListener('trackpaddown', (evt) => {
+                    this.startTeleport();
+                });
+                
+                this.el.addEventListener('trackpadup', (evt) => {
+                    if (this.isTeleporting) {
+                        this.teleport();
+                    }
+                });
+            },
+            
+            startTeleport: function() {
+                this.isTeleporting = true;
+                this.teleportCursor.setAttribute('visible', 'true');
+            },
+            
+            teleport: function() {
+                this.isTeleporting = false;
+                this.teleportCursor.setAttribute('visible', 'false');
+                
+                const cursorPos = this.teleportCursor.object3D.position;
+                const worldPos = new THREE.Vector3();
+                this.teleportCursor.object3D.getWorldPosition(worldPos);
+                
+                // Teleport the camera rig
+                const cameraRig = document.querySelector('[camera]').parentEl;
+                cameraRig.setAttribute('position', {
+                    x: worldPos.x,
+                    y: 0,
+                    z: worldPos.z
+                });
+            }
+        });
+
+        // Add teleport controls to controllers
+        document.querySelectorAll('[laser-controls]').forEach(controller => {
+            controller.setAttribute('teleport-controls', '');
+        });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        /* Hide the default laser controls cursor */
+        .a-entity [laser-controls] [cursor] {
+            display: none;
+        }
+    </style>
+</body>
 </html>
