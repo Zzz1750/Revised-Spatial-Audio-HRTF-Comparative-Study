@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pre Condition</title>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            background-color: black;
+            color: white;
+        }
+        #start_scene1{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            z-index: 100;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>  
+
+    <audio src="./audio/intro.mp3" id="intro_audio"></audio>
+
+    <div id="intro_page" style="display: block;">
+        <button id="start_scene1">Click</button>
+    </div>
+
+    <a-scene cursor="rayOrigin: mouse" visible="false" rotation="">
+
+    <!-- Audio Section -->
+
+    <!-- Elephant Left Audio -->
+    <a-entity id="elephant_left_audio" sound="src: ./audio/tick.mp3; volume: 8" position="-8.25845 0.75625 3.49423"></a-entity>
+
+    <!-- Elephant Right Audio -->
+    <a-entity id="elephant_right_audio" sound="src: ./audio/tick.mp3; volume: 8" position="-7.77832 0.82563 -4.52386"></a-entity>
+
+    <!-- Pillar Left Audio -->
+   <a-entity id="pillar_left_audio" sound="src: ./audio/tick.mp3; volume: 8" position="-2.59327 1 3.62962"></a-entity>
+
+   <!-- Pillar Right Audio -->
+   <a-entity id="pillar_right_audio" sound="src: ./audio/tick.mp3; volume: 8" position="-2.0909 1 -4.07978"></a-entity>
+
+    <!-- Top Audio -->
+   <a-entity id="top_audio" sound="src: ./audio/tick.mp3; volume: 8" position="-0.17872 7.39934 -0.53606"></a-entity>
+    
+    <!-- scene1 -->
+    <a-entity id="scene1" visible="false" light="defaultLightsEnabled: false">
+
+       <a-image id="logo" src="./images/3d_logo.jpg" position="-4 2 0" rotation="0 90 0" visible="false"></a-image>
+       <a-text id="scene1_text1" color="white" value="Auditory Stimulus Response Test" width="4" position="-4 2 1.3" rotation="0 90 0" visible="false"></a-text>  
+       
+       <a-entity id="vr_instruction" visible="false">
+        <a-text id="scene1_text1" color="white" value="Follow the Audio Cues" width="4" position="-4 2 1" rotation="0 90 0"></a-text>
+       </a-entity>
+       
+        <a-text id="connecting_text" color="white" value="Connecting..." width="4" position="-4 2 0.5" rotation="0 90 0" visible="false" ></a-text>  
+
+        
+    </a-entity>
+
+    <!-- scene2 -->
+    <a-entity id="scene2" visible="false">
+
+        <!-- center plane -->
+       <a-plane id="center_plane" class="ray-target" width="0" height="0" position="-7 1.61674 -0.37636" rotation="0 90 0" color="red" material="opacity: 0.8; shader: flat; transparent: true" > </a-plane>
+        
+        <!-- Left plane -->
+        <a-plane id="left_plane" class="ray-target" width="1.5" height="7" position="-2.7 2.5 4" rotation="0 -30 0" color="blue" material="opacity: 0.5; shader: flat; side: double; transparent: true" scale="1 1.3 1"></a-plane>
+        
+        <!-- Right plane -->
+        <a-plane id="right_plane" class="ray-target" width="1.5" height="7" position="-2.15653 2.5 -4" rotation="0 20 0" color="blue" material="opacity: 0.5; shader: flat; side: double; transparent: true" scale="1 1.3 1"></a-plane>         
+       
+        <!-- Mid Left plane -->
+        <a-plane id="mid_left_plane" class="ray-target" width="1" height="4" position="-8.24452 0.5 3.57559" rotation="0 -60 0" color="blue" material="opacity: 0.5; shader: flat; side: double; transparent: true"></a-plane>
+       
+        <!-- Mid Right plane -->
+        <a-plane id="mid_right_plane" class="ray-target" width="1" height="4" position="-7.47976 0.53522 -4.17296" rotation="0 60 0" color="blue" material="opacity: 0.5; shader: flat; side: double; transparent: true"></a-plane>        
+        
+        <!-- top_plane -->
+        <a-plane id="top_plane" class="ray-target" width="8" height="8" position="0 8.43454 0" rotation="90 0 0" color="blue" material="opacity: 0.5; shader: flat; side: double; transparent: true"></a-plane>
+
+
+        <a-entity position="-6 3 1.5" rotation="0 90 0" id="head_reseter3">
+           <a-text id="center_value2" value="Look Somewhere to Reset" color="black" width="7"></a-text>
+        </a-entity>
+
+        <a-entity position="-6 1.7 0.3" rotation="0 90 0" id="head_reseter3">
+           <a-text id="center_value" value="..." color="white" width="6"></a-text>
+        </a-entity>
+       
+    </a-entity>
+    
+    <!-- sky sphere - FIXED -->
+    <a-sphere 
+        id="sky"
+        radius="50"
+        material="side: back; src: ./images/wait_vr.webp; shader: flat; repeat: -1 1"
+        rotation="0 180 0"
+        position="0 0 0">
+    </a-sphere>
+
+
+    <!-- camera rig -->
+    <a-entity id="rig" rotation="0 90 0">
+        <a-entity 
+            camera 
+            position="0 1.6 0"
+            look-controls 
+            wasd-controls>
+            <a-cursor
+                id="cursor"
+                raycaster="objects: .ray-target; useWorldCoordinates: true"
+                fuse="false"
+                geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
+                material="opacity: 0; transparent: true">
+            </a-cursor>
+        </a-entity>
+    </a-entity>
+
+
+    </a-scene>
+
+    <script>
+        const center_plane = document.getElementById('center_plane');
+        const headreseter_audio1 = document.getElementById('headreseter_audio1');
+        const center_value = document.getElementById('center_value')
+
+        const elephant_left_audio = document.getElementById('elephant_left_audio');
+        const elephant_right_audio = document.getElementById('elephant_right_audio');
+        const pillar_left_audio = document.getElementById('pillar_left_audio');
+        const pillar_right_audio = document.getElementById('pillar_right_audio');
+        const top_audio = document.getElementById('top_audio');
+
+
+
+        const sky = document.getElementById('sky');
+        const scene = document.querySelector("a-scene");
+
+        const logo = document.getElementById('logo');
+        const scene1_text1 = document.getElementById('scene1_text1')
+        const intro_audio = document.getElementById('intro_audio');
+        const vr_instruction = document.getElementById('vr_instruction');
+        const connecting_text = document.getElementById('connecting_text');
+
+        function scene1(){
+            sky.setAttribute('material', 'src', './images/wait_vr.webp');
+            
+            setTimeout(()=>{
+                logo.setAttribute('visible','true');
+                intro_audio.play();
+                
+                setTimeout(()=>{
+                    logo.setAttribute('visible','false')
+                    scene1_text1.setAttribute('visible','true')
+
+                    setTimeout(()=>{
+                        scene1_text1.setAttribute('visible','false');
+                        vr_instruction.setAttribute('visible','true');
+
+                        setTimeout(()=>{
+                            vr_instruction.setAttribute('visible','false');
+                            connecting_text.setAttribute('visible','true');
+
+                            setTimeout(()=>{
+                                connecting_text.setAttribute('visible','false');
+                                scene2();
+                            }, 3000);
+                        }, 3000);
+                    }, 4000);
+                }, 4000);
+            }, 2000);
+        }
+       
+        function scene2(){
+            sky.setAttribute('material', 'src', './images/grid.webp');
+            document.getElementById('scene2').setAttribute('visible','true');
+
+            center_plane.setAttribute('width','2');
+            center_plane.setAttribute('height','2');
+           
+        }
+
+        document.getElementById('start_scene1').addEventListener('click',()=>{
+            document.getElementById('scene1').setAttribute('visible','true')
+            document.getElementById('intro_page').style.display='none';
+            scene.setAttribute('visible','true');
+            if (scene) {
+                scene.enterVR();
+                scene2();
+            }
+        });
+
+        let audio_manager = 0;
+        let canPlay = false; 
+
+        center_plane.addEventListener('mouseenter', () => {
+            if (canPlay) {
+                change_direction();
+                canPlay = false;
+            }
+        });
+
+        center_plane.addEventListener('mouseleave', () => {
+                                center_value.setAttribute('value','Look Here')
+   
+            canPlay = true;
+        });
+
+        function change_direction() {
+            switch (audio_manager) {
+                case 0:
+                    break;
+                case 1:
+                    elephant_left_audio.components.sound.playSound();
+                    center_plane.setAttribute('value','Follow Cue')
+                    console.log("Elephant Left");
+                    break;
+                case 2:
+                    elephant_right_audio.components.sound.playSound();
+                    center_plane.setAttribute('value','Follow Cue')
+                    console.log("Elephant Right");
+                    break;
+                case 3:
+                    pillar_left_audio.components.sound.playSound();
+                    center_plane.setAttribute('value','Follow Cue')
+                    console.log("Pillar Left");
+                    break;
+                case 4:
+                    pillar_right_audio.components.sound.playSound();
+                    center_plane.setAttribute('value','Follow Cue')
+                    console.log("Pillar Right");
+                    break;
+                case 5:
+                    top_audio.components.sound.playSound();
+                    center_plane.setAttribute('value','Follow Cue')
+                    console.log("Top Audio");
+                    break;
+            }
+            audio_manager++;
+        }
+    </script>
+</body>
+</html>
