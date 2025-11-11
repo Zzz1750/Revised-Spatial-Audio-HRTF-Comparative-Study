@@ -35,13 +35,13 @@
     <!-- scene1 -->
     <a-entity id="scene1" visible="false" light="defaultLightsEnabled: false">
         
-        <a-plane id="object_plane" class="ray-target" width="2" height="3" position="-11 0.5 -6" rotation="0 80 0" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
-        <a-plane id="object_dummy_plane" class="ray-target" width="2" height="3" position="-11 0.5 5" rotation="0 120 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_plane" class="ray-target" width="2" height="3" position="-11 1.5 -6" rotation="0 80 0" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_dummy_plane" class="ray-target" width="2" height="3" position="-11 1.5 5" rotation="0 120 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
        
         <!--Object Text -->
         <a-text id="object1_text" 
             value="" 
-            position="-5 2 -3" 
+            position="-5 3 -3" 
             align="center" 
             rotation="0 90 0"
             color="yellow">
@@ -50,7 +50,7 @@
         <!--Object Dummy Text -->
         <a-text id="object1_dummy_text" 
                 value=" " 
-                position="-5 2 2.5" 
+                position="-5 3 2.5" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -59,7 +59,7 @@
          <!--Reaction Text -->
         <a-text id="object1_reaction_text" 
                 value="" 
-                position="-5 2 0" 
+                position="-5 3 0" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -69,7 +69,7 @@
         <!-- stereo reaction text -->
          <a-text id="stereo_reaction_text" 
                 value="Stereo Reaction: " 
-                position="-5 5 3" 
+                position="-5 6 3" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -78,7 +78,7 @@
         <!-- stereo nav text -->
          <a-text id="stereo_nav_text" 
                 value="Stereo Nav: " 
-                position="-5 4.6 3" 
+                position="-5 5.6 3" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -87,20 +87,20 @@
         <!-- stereo gaze text -->
          <a-text id="stereo_gaze_text" 
                 value="Stereo Gaze: " 
-                position="-5 4.2 3" 
+                position="-5 5.2 3" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
             </a-text>
 
         <!-- button 1 -->
-        <a-entity id="button1" position="-4 2 0" rotation="0 90 0" visible="false">
+        <a-entity id="button1" position="-4 3 0" rotation="0 90 0" visible="false">
             <a-plane id="button_plane1" color="white" width="" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
             <a-text id="button_text1" value="Audio 1" align="center" color="black" position="0 0 0.01" width="3"></a-text>
         </a-entity>
 
 
-         <a-entity id="look_panel" position="-5 2 0" rotation="0 90 0" visible="false">
+         <a-entity id="look_panel" position="-5 4 0" rotation="0 90 0" visible="false">
             <a-plane id="look_panel_plane" color="white" width="0" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
             <a-text id="look_panel_text" value="Look Here" width="5" align="center" color="black" position="0 0 0.01" width="3"></a-text>
         </a-entity>
@@ -108,8 +108,8 @@
 
         <!-- Washout Scene -->
          <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
-           <a-text id="washout_text1" value="Washout Period" position="-3 2.5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="countdownText" value="20" position="-3 2.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+           <a-text id="washout_text1" value="Washout Period" position="-3 3.5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="countdownText" value="20" position="-3 3.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
          </a-entity>
 
         <!-- sky sphere -->
@@ -123,30 +123,30 @@
 
 
         <!-- Camera rig -->
-        <a-entity id="camera-rig" position="0 0 0" rotation="0 90 0">
-        <a-camera fov="90">
-        <a-cursor
-            raycaster="objects: .ray-target"
-            fuse="false"
-            geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
-            material="opacity: 0; transparent: true">
-        </a-cursor>
+        <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
+        <a-camera id="camera" fov="90" position="0 0 0">
+            <a-cursor
+                raycaster="objects: .ray-target"
+                fuse="false"
+                geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
+                material="opacity: 0; transparent: true">
+            </a-cursor>
+        </a-camera>
 
-
-        <!-- Right controller with laser -->
+        <!-- Right controller -->
         <a-entity 
             laser-controls="hand: right" 
             raycaster="objects: .clickable" 
             cursor="fuse: false">
         </a-entity>
 
-        <!-- Left controller with laser -->
+        <!-- Left controller -->
         <a-entity 
             laser-controls="hand: left" 
             raycaster="objects: .clickable" 
             cursor="fuse: false">
         </a-entity>
-      </a-entity>
+        </a-entity>
 
         <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
