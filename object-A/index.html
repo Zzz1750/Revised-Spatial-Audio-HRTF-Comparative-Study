@@ -30,7 +30,7 @@
         <button id="start_scene1">Click</button>
     </div>
 
-    <a-scene cursor="rayOrigin: mouse" visible="false" rotation="">
+    <a-scene cursor="rayOrigin: mouse" visible="false" >
     
     <!-- scene1 -->
     <a-entity id="scene1" visible="false" light="defaultLightsEnabled: false">
@@ -40,7 +40,7 @@
        
         <!--Object Text -->
         <a-text id="object1_text" 
-            value="Object text " 
+            value="" 
             position="-5 2 -3" 
             align="center" 
             rotation="0 90 0"
@@ -49,48 +49,110 @@
 
         <!--Object Dummy Text -->
         <a-text id="object1_dummy_text" 
-            value="Object text " 
-            position="-5 2 2.5" 
-            align="center" 
-            rotation="0 90 0"
-            color="yellow">
-        </a-text>
-    
+                value=" " 
+                position="-5 2 2.5" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow">
+            </a-text>
+
+         <!--Reaction Text -->
+        <a-text id="object1_reaction_text" 
+                value="" 
+                position="-5 2 0" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow">
+            </a-text>
+
         
-    </a-entity>
+        <!-- stereo reaction text -->
+         <a-text id="stereo_reaction_text" 
+                value="Stereo Reaction: " 
+                position="-5 5 3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow">
+            </a-text>
 
-    <a-entity id="scene2" visible="false" light="defaultLightsEnabled: false">
-        
-    
-    </a-entity>
+        <!-- stereo nav text -->
+         <a-text id="stereo_nav_text" 
+                value="Stereo Nav: " 
+                position="-5 4.6 3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow">
+            </a-text>
 
-    <!-- sky sphere - FIXED -->
-    <a-sphere 
-        id="sky"
-        radius="50"
-        material="side: back; src: ./images/check2.jpg; shader: flat; repeat: -1 1"
-        rotation="0 180 0"
-        position="0 0 0">
-    </a-sphere>
+        <!-- stereo gaze text -->
+         <a-text id="stereo_gaze_text" 
+                value="Stereo Gaze: " 
+                position="-5 4.2 3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow">
+            </a-text>
+
+        <!-- button 1 -->
+        <a-entity id="button1" position="-4 2 0" rotation="0 90 0" visible="false">
+            <a-plane id="button_plane1" color="white" width="" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
+            <a-text id="button_text1" value="Audio 1" align="center" color="black" position="0 0 0.01" width="3"></a-text>
+        </a-entity>
 
 
-    <!-- camera rig -->
-    <a-entity id="rig" rotation="0 90 0">
-        <a-entity 
-            camera 
-            position="0 1.6 0"
-            look-controls 
-            wasd-controls>
-            <a-cursor
-                id="cursor"
-                raycaster="objects: .ray-target; useWorldCoordinates: true"
-                fuse="false"
-                geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
-                material="opacity: 0; transparent: true">
-            </a-cursor>
+         <a-entity id="look_panel" position="-5 2 0" rotation="0 90 0" visible="false">
+            <a-plane id="look_panel_plane" color="white" width="0" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
+            <a-text id="look_panel_text" value="Look Here" width="5" align="center" color="black" position="0 0 0.01" width="3"></a-text>
         </a-entity>
     </a-entity>
 
+        <!-- Washout Scene -->
+         <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
+           <a-text id="washout_text1" value="Washout Period" position="-3 2.5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="countdownText" value="20" position="-3 2.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+         </a-entity>
+
+        <!-- sky sphere -->
+        <a-sphere 
+            id="sky"
+            radius="50"
+            material="side: back; src: ./images/check2.jpg; shader: flat; repeat: -1 1"
+            rotation="0 180 0"
+            position="0 0 0">
+        </a-sphere>
+
+
+        <!-- Camera rig -->
+        <a-entity id="camera-rig" position="0 0 0" rotation="0 90 0">
+        <a-camera fov="90">
+        <a-cursor
+            raycaster="objects: .ray-target"
+            fuse="false"
+            geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
+            material="opacity: 0; transparent: true">
+        </a-cursor>
+
+
+        <!-- Right controller with laser -->
+        <a-entity 
+            laser-controls="hand: right" 
+            raycaster="objects: .clickable" 
+            cursor="fuse: false">
+        </a-entity>
+
+        <!-- Left controller with laser -->
+        <a-entity 
+            laser-controls="hand: left" 
+            raycaster="objects: .clickable" 
+            cursor="fuse: false">
+        </a-entity>
+      </a-entity>
+
+        <!-- Audio Section -->
+        <a-entity id="stereo_audio" sound="src: ../../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="hrtf1_audio" sound="src: ../../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="hrtf2_audio" sound="src: ../../audio/object1_hrtf2.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="binaural_audio" sound="src: ../../audio/object1_binaural.wav; autoplay: false" position="-10.65944 0.49953 -6.22973"></a-entity>
 
     </a-scene>
 
@@ -98,38 +160,95 @@
 
         const sky = document.getElementById('sky');
         const scene = document.querySelector("a-scene");
+        const object1_text = document.getElementById('object1_text');
+        const object_plane = document.getElementById('object_plane');
+        const object_dummy_plane = document.getElementById('object_dummy_plane');
+        const object1_dummy_text = document.getElementById('object1_dummy_text');  
+        const object1_reaction_text = document.getElementById('object1_reaction_text');     
+        const button1 = document.getElementById('button1');
+        const button_plane1 = document.getElementById('button_plane1');
+        const button_text1 = document.getElementById('button_text1');
 
+        const stereo_audio = document.getElementById('stereo_audio');
+        const hrtf1_audio = document.getElementById('hrtf1_audio');
+        const hrtf2_audio = document.getElementById('hrtf2_audio');
+        const binaural_audio = document.getElementById('binaural_audio');
 
+        const look_panel = document.getElementById('look_panel');
+        const look_panel_plane = document.getElementById('look_panel_plane');
+        const look_panel_text = document.getElementById('look_panel_text');
 
+        var main_controller = 1;
 
+        //database values
+        var stereo_reaction_time = 0;
+        var stereo_nav_result = 0;
+        var stereo_total_gaze = 0;
+
+        var hrtf1_reaction_time = 0;
+        var hrtf1_nav_result = 0;
+        var hrtf1_total_gaze = 0;
+
+        var hrtf2_reaction_time = 0;
+        var hrtf2_nav_result = 0;
+        var hrtf2_total_gaze = 0;
+
+        var binaural_reaction_time = 0;
+        var stereo_nav_result = 0;
+        var stereo_total_gaze = 0;
+
+        //a-scene setups
         function scene1(){
             sky.setAttribute('material', 'src', './images/check2.jpg');
-        }
-            
-        function scene2(){
-            sky.setAttribute('material', 'src', './images/passendorf_snow_4k.png');
-            document.getElementById('scene2').setAttribute('visible','true');
-            document.getElementById('scene1').setAttribute('visible','false');
+            document.getElementById('scene1').setAttribute('visible','true');
+            document.getElementById('washout_scene').setAttribute('visible','false');           
         }
 
+        function washout(){
+            sky.setAttribute('material', 'src', './images/stierberg_sunrise_2k.png'); 
+            document.getElementById('scene1').setAttribute('visible','false');
+            document.getElementById('washout_scene').setAttribute('visible','true');                 
+        }
         document.getElementById('start_scene1').addEventListener('click',()=>{
-            document.getElementById('scene1').setAttribute('visible','true')
             document.getElementById('intro_page').style.display='none';
             scene.setAttribute('visible','true');
             if (scene) {
                 scene.enterVR();
-                scene2();
+                scene1();
             }
         });
+        
 
-     //till here
-    </script>
+        //Navigation Error System
+        function check_dummy_wins(target_plane, dummy_plane, dummy_time) {
+        return new Promise((resolve) => {
+            let finished = false;
 
+            function handleHover(buttonType) {
+            if (!finished) {
+                finished = true;
+                if (buttonType === 'target') {
+                resolve('Success'); 
+                } 
+                else {
+                resolve('Fail'); 
+                }
+            }
+            }
 
+            target_plane.addEventListener('mouseenter', () => handleHover('target'), { once: true });
+            dummy_plane.addEventListener('mouseenter', () => handleHover('dummy'), { once: true });
 
-    <script>
-        const object1_text = document.getElementById('object1_text');
-        const object_plane = document.getElementById('object_plane');
+            setTimeout(() => {
+            if (!finished) {
+                finished = true;
+                resolve('Failed to Look');
+            }
+            }, dummy_time);
+        });
+        }
+        
+        //Gaze Time System
         const gazeData = {
             object1: { time: 0 },
         };
@@ -156,8 +275,131 @@
             gaze_calculator_exit(gazeData.object1, 'time', object1_text);
         });
 
-      
 
+        //Reaction Time Calculator
+        function check_reaction_time(spc_time, planeEl, callback) {
+        let reaction_object = 0;
+        let reacted = false;
+
+        let reaction_watch = setInterval(() => {
+            reaction_object++;
+        }, 1000);
+
+        planeEl.addEventListener('mouseenter', () => {
+            if (!reacted) {
+            reacted = true;
+            clearInterval(reaction_watch);
+            callback(reaction_object);
+            }
+        });
+
+        setTimeout(() => {
+            if (!reacted) {
+            reacted = true;
+            clearInterval(reaction_watch);
+            callback('NULL');
+            }
+        }, spc_time);
+        }
+
+        look_panel.addEventListener('mouseenter',()=>{
+            button1_returner();
+        })
+
+        button1.addEventListener('click', ()=>{
+            Player();
+            button_plane1.setAttribute('width','0');
+            button_plane1.setAttribute('height','0');
+            button1.setAttribute('visible','false')
+        })
+
+        function button1_returner(){
+            look_panel_plane.setAttribute('color','green');
+            setTimeout(()=>{
+                look_panel.setAttribute('visible','false');
+                look_panel_plane.setAttribute('width','0');
+                look_panel_plane.setAttribute('height','0');
+            },1000);
+            setTimeout(()=>{
+                look_panel_plane.setAttribute('color','white');
+                button_plane1.setAttribute('width','1');
+                button_plane1.setAttribute('height','0.3');
+                button1.setAttribute('visible','true')
+            },2000);
+        }
+
+        function look_panel_returner(){
+            look_panel.setAttribute('visible','true');
+            look_panel_plane.setAttribute('width','2');
+            look_panel_plane.setAttribute('height','3');
+        }
+
+        setTimeout(()=>{
+            look_panel_returner();
+        },2000)
+
+        function Player(){
+            switch (main_controller) {
+                case 1:
+                    console.log("audio 1");
+                    gazeData.object1.time=0;
+                    stereo_audio.components.sound.playSound();
+
+                    check_dummy_wins(object_plane, object_dummy_plane, 14000).then(result => {
+                        stereo_nav_result = result;
+                        object1_dummy_text.setAttribute('value', `Stereo Nav: ${stereo_nav_result}`);
+                    });
+                    
+                    check_reaction_time(16000, object_plane, (time) => {
+                        stereo_reaction_time = time;
+                        object1_reaction_text.setAttribute('value', `Stereo Reaction: ${stereo_reaction_time}s`);
+                    });
+
+                    setTimeout(()=>{
+                        stereo_total_gaze = gazeData.object1.time;
+                        document.getElementById('stereo_gaze_text').setAttribute('value',`Stereo Gaze: ${stereo_total_gaze}`);
+                        document.getElementById('stereo_nav_text').setAttribute('value',`Stereo Nav: ${stereo_nav_result}`);
+                        document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
+                        
+                    },51000);
+
+                    button_text1.setAttribute('value','audio2');
+                    break;
+                
+                case 2:
+                    console.log("audio 2");
+                    break;
+                case 3:
+                    console.log("audio 3");
+                    break;
+                case 4:
+                    console.log("audio 4");
+                    break;
+            }
+            main_controller++;
+        }
+
+    </script>
+
+     <script>
+      let count = 20;
+      let timer;
+
+      function startCountdown() {
+        const textEl = document.querySelector('#countdownText');
+        clearInterval(timer);
+        count = 20;
+
+        timer = setInterval(() => {
+          textEl.setAttribute('value', count);
+          if (count === 0) {
+            clearInterval(timer);
+            console.log("Hello World");
+          } else {
+            count--;
+          }
+        }, 1000);
+      }
     </script>
 </body>
 </html>
