@@ -440,16 +440,33 @@
             },2000);
         }
 
-        function look_panel_returner(){
-            look_panel.setAttribute('visible','true');
-            look_panel_plane.setAttribute('width','2');
-            look_panel_plane.setAttribute('height','3');
+        function setupLookPanelEvents() {
+    // Remove existing event listeners
+    look_panel.removeEventListener('mouseenter', handleLookPanelEnter);
+    
+    // Add new event listener
+    look_panel.addEventListener('mouseenter', handleLookPanelEnter);
+}
 
-            const cursor = document.querySelector('a-cursor');
-            if (cursor && cursor.components.raycaster) {
-                cursor.components.raycaster.refreshObjects();
-            }
+function handleLookPanelEnter() {
+    button1_returner();
+}
+
+// Call this whenever you make the look_panel visible
+function look_panel_returner(){
+    look_panel.setAttribute('visible','true');
+    look_panel_plane.setAttribute('width','2');
+    look_panel_plane.setAttribute('height','3');
+    
+    // Refresh raycaster and setup events
+    setTimeout(() => {
+        const cursor = document.querySelector('a-cursor');
+        if (cursor && cursor.components.raycaster) {
+            cursor.components.raycaster.refreshObjects();
         }
+        setupLookPanelEvents();
+    }, 100);
+}
 
         setTimeout(()=>{
             look_panel_returner();
