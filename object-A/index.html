@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Pre Condition</title>
+    <title>Object A</title>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <style>
         body{
@@ -64,7 +64,15 @@
                 rotation="0 90 0"
                 color="yellow">
             </a-text>
-
+        
+        <a-text id="washout_delay_text" 
+                value="Redirecting..." 
+                position="-5 4.5 0" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                visible="false">
+            </a-text>
         
         <!-- stereo reaction text -->
          <a-text id="stereo_reaction_text" 
@@ -72,7 +80,8 @@
                 position="-5 6 3" 
                 align="center" 
                 rotation="0 90 0"
-                color="yellow">
+                color="yellow"
+                width="4">
             </a-text>
 
         <!-- stereo nav text -->
@@ -81,7 +90,8 @@
                 position="-5 5.6 3" 
                 align="center" 
                 rotation="0 90 0"
-                color="yellow">
+                color="yellow"
+                width="4">
             </a-text>
 
         <!-- stereo gaze text -->
@@ -90,7 +100,100 @@
                 position="-5 5.2 3" 
                 align="center" 
                 rotation="0 90 0"
-                color="yellow">
+                color="yellow"
+                width="4">
+            </a-text>
+
+         <!-- hrtf1 reaction text -->
+         <a-text id="hrtf1_reaction_text" 
+                value="HRTF 1 Reaction: " 
+                position="-5 6 1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- hrtf1 nav text -->
+         <a-text id="hrtf1_nav_text" 
+                value="HRTF 1 Nav: " 
+                position="-5 5.6 1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- hrtf1 gaze text -->
+         <a-text id="hrtf1_gaze_text" 
+                value="HRTF 1 Gaze: " 
+                position="-5 5.2 1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- hrtf2 reaction text -->
+         <a-text id="hrtf2_reaction_text" 
+                value="HRTF 2 Reaction: " 
+                position="-5 6 -1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- hrtf2 nav text -->
+         <a-text id="hrtf2_nav_text" 
+                value="HRTF 2 Nav: " 
+                position="-5 5.6 -1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- hrtf2 gaze text -->
+         <a-text id="hrtf2_gaze_text" 
+                value="HRTF 2 Gaze: " 
+                position="-5 5.2 -1" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+
+
+        <!-- binaural reaction text -->
+         <a-text id="binaural_reaction_text" 
+                value="Binaural Reaction: " 
+                position="-5 6 -3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- binaural nav text -->
+         <a-text id="binaural_nav_text" 
+                value="Binaural Nav: " 
+                position="-5 5.6 -3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
+            </a-text>
+
+        <!-- binaural gaze text -->
+         <a-text id="binaural_gaze_text" 
+                value="Binaural Gaze: " 
+                position="-5 5.2 -3" 
+                align="center" 
+                rotation="0 90 0"
+                color="yellow"
+                width="4">
             </a-text>
 
         <!-- button 1 -->
@@ -109,7 +212,7 @@
         <!-- Washout Scene -->
          <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
            <a-text id="washout_text1" value="Washout Period" position="-3 3.5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="countdownText" value="20" position="-3 3.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="countdownText" value="" position="-3 3.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
          </a-entity>
 
         <!-- sky sphere -->
@@ -150,10 +253,10 @@
 
         <!-- Audio Section -->
        <!-- Audio Section -->
-<a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
-<a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
-<a-entity id="hrtf2_audio" sound="src: ../audio/object1_hrtf2.wav; autoplay: false; positional: false"></a-entity>
-<a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false" position="-10.65944 0.49953 -6.22973"></a-entity>
+        <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="hrtf2_audio" sound="src: ../audio/object1_hrtf2.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false" position="-10.65944 0.49953 -6.22973"></a-entity>
 
     </a-scene>
 
@@ -178,9 +281,10 @@
         const look_panel = document.getElementById('look_panel');
         const look_panel_plane = document.getElementById('look_panel_plane');
         const look_panel_text = document.getElementById('look_panel_text');
+        const washout_delay_text = document.getElementById('washout_delay_text');
 
         var main_controller = 1;
-
+        var scene_controller = 1;
         //database values
         var stereo_reaction_time = 0;
         var stereo_nav_result = 0;
@@ -195,20 +299,27 @@
         var hrtf2_total_gaze = 0;
 
         var binaural_reaction_time = 0;
-        var stereo_nav_result = 0;
-        var stereo_total_gaze = 0;
+        var binaural_nav_result = 0;
+        var binaural_total_gaze = 0;
 
         //a-scene setups
         function scene1(){
             sky.setAttribute('material', 'src', './images/check2.jpg');
             document.getElementById('scene1').setAttribute('visible','true');
-            document.getElementById('washout_scene').setAttribute('visible','false');           
+            document.getElementById('washout_scene').setAttribute('visible','false');
+            
+            object1_dummy_text.setAttribute('value','');
+            object1_reaction_text.setAttribute('value', '')
+            object1_text.setAttribute('value','')
+            document.getElementById('countdownText').setAttribute('value','')
         }
 
         function washout(){
             sky.setAttribute('material', 'src', './images/stierberg_sunrise_2k.png'); 
             document.getElementById('scene1').setAttribute('visible','false');
-            document.getElementById('washout_scene').setAttribute('visible','true');                 
+            document.getElementById('washout_scene').setAttribute('visible','true');  
+            scene_controller = 0; 
+            startCountdown('countdownText');     
         }
         document.getElementById('start_scene1').addEventListener('click',()=>{
             document.getElementById('intro_page').style.display='none';
@@ -337,21 +448,29 @@
 
         setTimeout(()=>{
             look_panel_returner();
-        },2000)
+        },4000)
 
+
+        function call_washout(){
+            setTimeout(()=>{
+                washout();
+                washout_delay_text.setAttribute('visible','false');
+            },2000);
+        }
         function Player(){
-            switch (main_controller) {
+            if(scene_controller == 1){
+                switch (main_controller) {
                 case 1:
-                    console.log("audio 1");
+                    console.log("audio 1 - stereo");
                     gazeData.object1.time=0;
                     stereo_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 14000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
                         stereo_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Stereo Nav: ${stereo_nav_result}`);
                     });
                     
-                    check_reaction_time(16000, object_plane, (time) => {
+                    check_reaction_time(51000, object_plane, (time) => {
                         stereo_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `Stereo Reaction: ${stereo_reaction_time}s`);
                     });
@@ -361,46 +480,120 @@
                         document.getElementById('stereo_gaze_text').setAttribute('value',`Stereo Gaze: ${stereo_total_gaze}`);
                         document.getElementById('stereo_nav_text').setAttribute('value',`Stereo Nav: ${stereo_nav_result}`);
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
-                        
+                        washout_delay_text.setAttribute('visible','true');
+                        button_text1.setAttribute('value','audio2');
+                        call_washout();
                     },51000);
-
-                    button_text1.setAttribute('value','audio2');
                     break;
                 
                 case 2:
-                    console.log("audio 2");
+                    console.log("audio 2 - hrtf 1");
+                    gazeData.object1.time=0;
+                    hrtf1_audio.components.sound.playSound();
+
+                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                        hrtf1_nav_result = result;
+                        object1_dummy_text.setAttribute('value', `HRTF1 Nav: ${hrtf1_nav_result}`);
+                    });
+                    
+                    check_reaction_time(51000, object_plane, (time) => {
+                        hrtf1_reaction_time = time;
+                        object1_reaction_text.setAttribute('value', `HRTF1 Reaction: ${hrtf1_reaction_time}s`);
+                    });
+
+                    setTimeout(()=>{
+                        hrtf1_total_gaze = gazeData.object1.time;
+                        document.getElementById('hrtf1_gaze_text').setAttribute('value',`HRTF1 Gaze: ${hrtf1_total_gaze}`);
+                        document.getElementById('hrtf1_nav_text').setAttribute('value',`HRTF1 Nav: ${hrtf1_nav_result}`);
+                        document.getElementById('hrtf1_reaction_text').setAttribute('value',`HRTF1 Reaction: ${hrtf1_reaction_time}`);
+                        washout_delay_text.setAttribute('visible','true');
+                        button_text1.setAttribute('value','audio 3');
+                        call_washout();
+                    },51000);
                     break;
                 case 3:
-                    console.log("audio 3");
+                    console.log("audio 3 - hrtf 2");
+                    gazeData.object1.time=0;
+                    hrtf2_audio.components.sound.playSound();
+
+                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                        hrtf2_nav_result = result;
+                        object1_dummy_text.setAttribute('value', `HRTF 2 Nav: ${hrtf2_nav_result}`);
+                    });
+                    
+                    check_reaction_time(51000, object_plane, (time) => {
+                        hrtf2_reaction_time = time;
+                        object1_reaction_text.setAttribute('value', `HRTF 2 Reaction: ${hrtf2_reaction_time}s`);
+                    });
+
+                    setTimeout(()=>{
+                        hrtf2_total_gaze = gazeData.object1.time;
+                        document.getElementById('hrtf2_gaze_text').setAttribute('value',`HRTF2 Gaze: ${hrtf2_total_gaze}`);
+                        document.getElementById('hrtf2_nav_text').setAttribute('value',`HRTF2 Nav: ${hrtf2_nav_result}`);
+                        document.getElementById('hrtf2_reaction_text').setAttribute('value',`HRTF2 Reaction: ${hrtf2_reaction_time}`);
+                        washout_delay_text.setAttribute('visible','true');
+                        button_text1.setAttribute('value','audio 4');
+                        call_washout();
+                    },51000);
                     break;
                 case 4:
-                    console.log("audio 4");
+                    console.log("audio 4 - binaural");
+                    gazeData.object1.time=0;
+                    binaural_audio.components.sound.playSound();
+
+                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                        binaural_nav_result = result;
+                        object1_dummy_text.setAttribute('value', `Binaural Nav: ${binaural_nav_result}`);
+                    });
+                    
+                    check_reaction_time(51000, object_plane, (time) => {
+                        binaural_reaction_time = time;
+                        object1_reaction_text.setAttribute('value', `Binaural Reaction: ${binaural_reaction_time}s`);
+                    });
+
+                    setTimeout(()=>{
+                        binaural_total_gaze = gazeData.object1.time;
+                        document.getElementById('binaural_gaze_text').setAttribute('value',`Binaural Gaze: ${binaural_total_gaze}`);
+                        document.getElementById('binaural_nav_text').setAttribute('value',`Binaural Nav: ${binaural_nav_result}`);
+                        document.getElementById('binaural_reaction_text').setAttribute('value',`Binaural Reaction: ${binaural_reaction_time}`);
+                        washout_delay_text.setAttribute('visible','true');
+                        button_text1.setAttribute('value','audio 4');
+                    },51000);
                     break;
             }
             main_controller++;
+            }
+            
         }
 
     </script>
 
-     <script>
-      let count = 20;
-      let timer;
+    <script>
+    let timer;
 
-      function startCountdown() {
-        const textEl = document.querySelector('#countdownText');
+    function startCountdown(elementId, startValue = 20, onFinish = () => console.log("Hello World")) {
+        const textEl = document.querySelector(`#${elementId}`);
+        if (!textEl) {
+        console.error(`Element with id "${elementId}" not found.`);
+        return;
+        }
+
         clearInterval(timer);
-        count = 20;
+        let count = startValue;
 
         timer = setInterval(() => {
-          textEl.setAttribute('value', count);
-          if (count === 0) {
+        textEl.setAttribute('value', count);
+        if (count === 0) {
             clearInterval(timer);
-            console.log("Hello World");
-          } else {
+            scene1();
+            look_panel_returner();
+            scene_controller = 1;
+        } else {
             count--;
-          }
+        }
         }, 1000);
-      }
+    }
     </script>
+
 </body>
 </html>
