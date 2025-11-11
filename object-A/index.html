@@ -444,6 +444,11 @@
             look_panel.setAttribute('visible','true');
             look_panel_plane.setAttribute('width','2');
             look_panel_plane.setAttribute('height','3');
+
+            const cursor = document.querySelector('a-cursor');
+            if (cursor && cursor.components.raycaster) {
+                cursor.components.raycaster.refreshObjects();
+            }
         }
 
         setTimeout(()=>{
