@@ -50,11 +50,12 @@
         }
         #heading{
             position: absolute;
-            top: 25%;
+            top: 15%;
             left: 50%;
+            font-size: 1.8rem;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             transform: translate(-50%, -50%);
-            
+            opacity: 0.95;
         }
         #heading::after {
             content: "";
@@ -68,15 +69,16 @@
         #heading2{
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
-            top: 50%;
+            top: 58%;
             left: 50%;
             font-size: 1rem;
             font-weight: 200;
             transform: translate(-50%, -50%);
+            opacity: 0.9;
         }
         #start-vr{
             position: absolute;
-            top: 58%;
+            top: 68%;
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 10px 20px;
@@ -110,12 +112,21 @@
         #data_form{
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
-            top: 42%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
         #data_form input{
             padding: 5px;
+        }
+        #main_content{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -124,6 +135,9 @@
     <div id="start-precondition-page">
         <div id="set1">
             <h1 id="heading">𔓘 Welcome to the Research 𔓘</h1>
+            <p id="main_content">Welcome to the Saratha Vilas, <br><br>
+                This application is part of a research study exploring how immersive audio impacts  engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.
+            </p>
             <div id="data_form">
                 <label for="name_id">Enter ID:</label><br>
                 <input type="text" name="name_id" id="name_id">
