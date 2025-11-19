@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre Condition</title>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <style>
+        body{
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #skip-button{
+            position: absolute;
+            right: 3%;
+            bottom: 2%;
+            text-decoration: underline;
+            font-size: 1.05rem;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            cursor: pointer;
+        }
+        #start-precondition-page{
+            display: block;
+        }
+        a-scene {
+            display: none !important;
+        }
+        #admin-side{
+            position: absolute;
+            bottom: 5%;
+            right: 3%;
+        }
+        #skip-pre-condition{
+            margin-top: 20px;
+            padding: 8px 13px;
+            border-radius: 15px;
+            color: white;
+            background-color: black;
+            border: 1px solid white;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #back-admin{
+            cursor: pointer;
+            text-decoration: underline;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+        #heading{
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            transform: translate(-50%, -50%);
+            
+        }
+        #heading::after {
+            content: "";
+            display: block;
+            width: 120px;     
+            height: 2px;      
+            background: white;
+            margin: 1px auto 0;
+            margin-top: -18px;
+}
+        #heading2{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1rem;
+            font-weight: 200;
+            transform: translate(-50%, -50%);
+        }
+        #start-vr{
+            position: absolute;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            background-color: black;
+            border: 1px solid white;
+            color: white;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+        #start-vr:hover{
+            color: black;
+            transform: translate(-50%, -50%) scale(1.05);
+            background-color: white;
+        }
+        #connection1_msg{
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            font-size: 1.5rem;
+            transform: translate(-50%, -50%);
+        }
+        #countdown1{
+            position: absolute;
+            top: 36%;
+            left: 50%;
+            font-size: 3rem;
+            transform: translate(-50%, -50%); 
+        }
+        #data_form{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: absolute;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #data_form input{
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="intro_audio" src="./audio/intro_new.mp3"></audio>
+    <div id="start-precondition-page">
+        <div id="set1">
+            <h1 id="heading">𔓘 Welcome to the Research 𔓘</h1>
+            <div id="data_form">
+                <label for="name_id">Enter ID:</label><br>
+                <input type="text" name="name_id" id="name_id">
+            </div>
+            <p id="heading2">- Remain still and make sure you're in a safe space before putting on the headset -</p>
+            <button id="start-vr">・Go Inside VR・</button>
+        </div>
+       <div id="set2" style="display: none;">
+        <h1 id="countdown1"></h1>
+        <p id="connection1_msg">Connecting Scene in</p>
+       </div>
+        
+        <p id="skip-button">admin</p>
+        <div id="admin-side" style="display: none;">
+            <p id="back-admin">back</span></p>
+            <input type="text" id="skip-pass" placeholder="Enter Password" style="padding: 10px;"><br>
+            <button id="skip-pre-condition">Skip Condition</button>
+        </div>
+        
+    </div>
+    <a-scene id="scene" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" > 
+
+        <!-- sky sphere -->
+        <a-sphere 
+            id="sky"
+            radius="50"
+            material="side: back; src: ./images/wait_vr.webp; shader: flat; repeat: -1 1"
+            rotation="0 180 0"
+            position="0 0 0">
+        </a-sphere>
+        
+        <!-- camera -->
+        <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
+            <a-camera id="camera" fov="90" position="0 0 0">
+                <a-cursor
+                    id="cursor"
+                    raycaster="objects: .ray-target, .clickable"
+                    fuse="false"
+                    fuse-timeout="1500"
+                    geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.01"
+                    material="color: #FFFFFF; shader: flat; opacity: 0"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"
+                    animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500; startEvents: fusing">
+                </a-cursor>
+            </a-camera>
+        </a-entity>
+        
+        <a-entity id="scene1" visible="false">
+             
+            <!-- logo -->
+            <a-plane 
+                id="wait_logo" 
+                src="./images/3d_logo.jpg" 
+                position="-3 3.5 0" 
+                width="1" 
+                height="1" 
+                rotation="0 90 0"
+                visible="false"
+                animation__zoom="property: position; to: -2.8 3.5 0; dur: 5000; startEvents: logo-visible; easing: easeInQuad">
+            </a-plane>
+
+            <a-text id="sub_logo" color="white" value="A Chettinad Research" width="4" position="-3.6 3.6 0.85" rotation="0 90 0" visible="false"
+                    animation__zoom="property: position; to: -4 3.6 0.85; dur: 8000; startEvents: sublogo-visible; easing: easeOutQuad">
+            </a-text>  
+        </a-entity>
+
+        <a-entity id="scene2" visible="false">
+            <a-text id="scene2_text1" color="white" value="A study on" width="4" position="-4 3.9 0.4"  text="opacity: 0.8" rotation="0 90 0" visible="false"></a-text>
+            <a-text id="scene2_text2" color="white" value="Immersive Audio - Comparative Analysis" width="5" position="-4 3.6 1.8" rotation="0 90 0" visible="false"></a-text>
+            <a-text id="scene2_text3" color="white" value="Connecting..." width="3.5" position="-4 3.1 0.4" rotation="0 90 0" visible="false"></a-text>
+            <a-plane id="scene2_button"   ></a-plane>
+        </a-entity>
+    </a-scene>
+    
+    <script>
+        const scene = document.querySelector("a-scene");
+        const scene1 = document.getElementById('scene1');
+
+        const wait_logo = document.getElementById('wait_logo');
+        const sub_logo = document.getElementById('sub_logo');
+        const intro_audio = document.getElementById('intro_audio')
+
+        const scene2_text1 = document.getElementById('scene2_text1')
+        const scene2_text2 = document.getElementById('scene2_text2')
+        const scene2_text3 = document.getElementById('scene2_text3');
+        const scene2 = document.getElementById('scene2');
+
+        function start_actual_vr(){
+            scene1.setAttribute('visible','true')
+            document.getElementById('start-precondition-page').style.display='none';
+            scene.setAttribute('visible','true');
+            scene.style.setProperty("display", "block", "important");
+
+            if (scene) {
+                scene.enterVR();
+                scene1_f();
+            }
+        };
+
+
+        function scene1_f(){
+            setTimeout(()=>{
+                intro_audio.play();
+                setTimeout(()=>{
+                    wait_logo.setAttribute('visible','true');
+                    wait_logo.emit('logo-visible');
+
+                    setTimeout(()=>{
+                        wait_logo.setAttribute('visible','false');
+                        sub_logo.setAttribute('visible','true');
+                        sub_logo.emit('sublogo-visible');
+
+                        setTimeout(()=>{
+                            scene2_f();
+                            scene1.setAttribute('visible','false')
+                        }, 4000);
+                    },4000);
+                },500);
+                
+            }, 1000)
+            sky.setAttribute('material', 'src', './images/wait_vr.webp');
+
+        }
+
+        function scene2_f(){
+            scene2.setAttribute('visible','true');
+            sky.setAttribute('material', 'src', './images/intro.webp');
+            setTimeout(()=>{
+                scene2_text1.setAttribute('visible','true');
+                scene2_text2.setAttribute('visible','true');
+                setTimeout(()=>{
+                    scene2_text3.setAttribute('visible','true')
+                },3000);
+            },2000)
+        }
+    </script>
+
+    <script>
+        document.getElementById('skip-button').addEventListener('click',()=>{
+            document.getElementById('skip-button').style.display='none'
+            document.getElementById('admin-side').style.display='block';
+        })
+        document.getElementById('back-admin').addEventListener('click',()=>{
+            document.getElementById('admin-side').style.display='none';
+            document.getElementById('skip-button').style.display='block'
+        })
+        document.getElementById('skip-pre-condition').addEventListener('click',()=>{
+            if( document.getElementById('skip-pass').value == 'pass123'){
+                window.location.href='../progress-page/index.html';
+            }
+            else{
+                alert('wrong password')            
+            }
+        })
+
+        document.getElementById('start-vr').addEventListener('click',()=>{
+            document.getElementById('set1').style.display='none'
+            document.getElementById('set2').style.display='block';
+
+            startCountdown();
+        })
+
+
+        let timer;
+
+            function startCountdown() {
+                let num = 3;
+                const countEl = document.getElementById("countdown1");
+
+                clearInterval(timer);
+
+                timer = setInterval(() => {
+                    countEl.innerText = num;
+
+                    if (num === 0) {
+                        clearInterval(timer);
+                        countEl.innerHTML = "...";
+                        start_actual_vr();
+                    }
+
+                    num--;
+                }, 1000);
+            }        
+    </script>
+</body>
+</html>

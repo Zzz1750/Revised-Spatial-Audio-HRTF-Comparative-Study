@@ -107,22 +107,21 @@
     </a-sphere>
 
 
-    <!-- camera rig -->
-    <a-entity id="rig" rotation="0 90 0">
-        <a-entity 
-            camera 
-            position="0 1.6 0"
-            look-controls 
-            wasd-controls>
-            <a-cursor
-                id="cursor"
-                raycaster="objects: .ray-target; useWorldCoordinates: true"
-                fuse="false"
-                geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
-                material="opacity: 0; transparent: true">
-            </a-cursor>
+     <!-- Camera rig with height and rotation -->
+        <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
+            <a-camera id="camera" fov="90" position="0 0 0">
+                <a-cursor
+                    id="cursor"
+                    raycaster="objects: .ray-target, .clickable"
+                    fuse="false"
+                    fuse-timeout="1500"
+                    geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.01"
+                    material="color: #FFFFFF; shader: flat; opacity: 0"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"
+                    animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500; startEvents: fusing">
+                </a-cursor>
+            </a-camera>
         </a-entity>
-    </a-entity>
 
 
     </a-scene>
@@ -209,7 +208,6 @@
 
         center_plane.addEventListener('mouseleave', () => {
                                 center_value.setAttribute('value','Look Here')
-   
             canPlay = true;
         });
 

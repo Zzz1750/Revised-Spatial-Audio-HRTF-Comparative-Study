@@ -30,18 +30,17 @@
         <button id="start_scene1">Click</button>
     </div>
 
-    <a-scene cursor="rayOrigin: mouse" visible="false" >
-    
+    <a-scene id="scene" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" visible="false">    
     <!-- scene1 -->
     <a-entity id="scene1" visible="false" light="defaultLightsEnabled: false">
         
-        <a-plane id="object_plane" class="ray-target" width="2" height="3" position="-11 1.5 -6" rotation="0 80 0" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
-        <a-plane id="object_dummy_plane" class="ray-target" width="2" height="3" position="-11 1.5 5" rotation="0 120 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_plane" class="ray-target" width="2" height="4" position="-11 2.5 -6" rotation="0 80 0" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_dummy_plane" class="ray-target" width="2" height="4" position="-11 2.5 5" rotation="0 120 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
        
         <!--Object Text -->
         <a-text id="object1_text" 
             value="" 
-            position="-5 3 -3" 
+            position="-5 3.5 -3" 
             align="center" 
             rotation="0 90 0"
             color="yellow">
@@ -50,7 +49,7 @@
         <!--Object Dummy Text -->
         <a-text id="object1_dummy_text" 
                 value=" " 
-                position="-5 3 2.5" 
+                position="-5 3.5 2.5" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -59,7 +58,7 @@
          <!--Reaction Text -->
         <a-text id="object1_reaction_text" 
                 value="" 
-                position="-5 3 0" 
+                position="-5 3.5 0" 
                 align="center" 
                 rotation="0 90 0"
                 color="yellow">
@@ -205,7 +204,7 @@
 
          <a-entity id="look_panel" position="-5 4 0" rotation="0 90 0" visible="false">
             <a-plane id="look_panel_plane" color="white" width="0" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
-            <a-text id="look_panel_text" value="Look Here" width="5" align="center" color="black" position="0 0 0.01" width="3"></a-text>
+            <a-text id="look_panel_text" value="Look Here \n \n Click to Continue" width="5" align="center" color="black" position="0 0.2 0.01" width="3"></a-text>
         </a-entity>
     </a-entity>
 
@@ -225,16 +224,20 @@
         </a-sphere>
 
 
-        <!-- Camera rig -->
+        <!-- Camera rig with height and rotation -->
         <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
-        <a-camera id="camera" fov="90" position="0 0 0">
-            <a-cursor
-                raycaster="objects: .ray-target"
-                fuse="false"
-                geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
-                material="opacity: 0; transparent: true">
-            </a-cursor>
-        </a-camera>
+            <a-camera id="camera" fov="90" position="0 0 0">
+                <a-cursor
+                    id="cursor"
+                    raycaster="objects: .ray-target, .clickable"
+                    fuse="false"
+                    fuse-timeout="1500"
+                    geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.01"
+                    material="color: #FFFFFF; shader: flat; opacity: 0"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"
+                    animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500; startEvents: fusing">
+                </a-cursor>
+            </a-camera>
 
         <!-- Right controller -->
         <a-entity 
@@ -249,9 +252,8 @@
             raycaster="objects: .clickable" 
             cursor="fuse: false">
         </a-entity>
-        </a-entity>
+    </a-entity>
 
-        <!-- Audio Section -->
        <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
         <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
