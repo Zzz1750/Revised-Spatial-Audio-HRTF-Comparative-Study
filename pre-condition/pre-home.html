@@ -50,7 +50,7 @@
         }
         #heading{
             position: absolute;
-            top: 15%;
+            top: 20%;
             left: 50%;
             font-size: 1.8rem;
             font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -61,19 +61,19 @@
         #heading2{
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
-            top: 58%;
+            top: 35%;
             left: 50%;
             font-size: 1rem;
             font-weight: 200;
             transform: translate(-50%, -50%);
             opacity: 0.9;
         }
-        #start-vr{
+        .common_button{
             position: absolute;
-            top: 68%;
+            top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 10px 20px;
+            padding: 10px 25px;
             font-size: 0.9rem;
             background-color: black;
             border: 1px solid white;
@@ -82,7 +82,7 @@
             border-radius: 20px;
             transition: all 0.3s ease-in-out;
         }
-        #start-vr:hover{
+        .common_button:hover{
             color: black;
             transform: translate(-50%, -50%) scale(1.05);
             background-color: white;
@@ -96,7 +96,7 @@
         }
         #countdown1{
             position: absolute;
-            top: 36%;
+            top: 38%;
             left: 50%;
             font-size: 3rem;
             transform: translate(-50%, -50%); 
@@ -104,7 +104,7 @@
         #data_form{
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
-            top: 50%;
+            top: 35%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -124,19 +124,32 @@
 </head>
 <body>
     <audio id="intro_audio" src="./audio/intro_new.mp3"></audio>
+    <audio id="pre_condition_intro" src="./audio/intro2.mp3"></audio>
     <div id="start-precondition-page">
         <div id="set1">
-            <h1 id="heading">𔓘 Soundscapes of Chettinad: Saratha Vilas in VR 𔓘</h1>
-            <p id="main_content">Welcome to the Saratha Vilas, <br><br>
-                This application is part of a research study exploring how immersive audio impacts  engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.
-            </p>
-            <div id="data_form">
-                <label for="name_id">Enter ID:</label><br>
-                <input type="text" name="name_id" id="name_id">
+            <h1 id="heading">𔓘 Soundscapes of Chettinad 𔓘</h1>
+            
+            <div id="set1_1">
+                 <p id="main_content">Welcome to the Saratha Vilas, <br><br>This application is part of a research study exploring how immersive audio impacts  engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.</p>
+                <button class="common_button" id="set1_1_button">Next</button>
             </div>
-            <p id="heading2">- Remain still and make sure you're in a safe space before putting on the headset -</p>
-            <button id="start-vr">・Go Inside VR・</button>
+
+
+            <div id="set1_2" style="display: none;">
+                <div id="data_form">
+                    <label for="name_id">Enter ID:</label><br>
+                    <input type="text" name="name_id" id="name_id">
+                    <button class="common_button" id="set1_2_button" style="margin-top: 100px;">Verify</button>
+                </div>
+            </div>
+
+            <div id="set1_3" style="display: none;">
+                <p id="heading2">- Remain still and make sure you're in a safe space before putting on the headset -</p>
+                <button class="common_button" id="start-vr">・Go Inside VR・</button>        
+            </div>
+
         </div>
+
        <div id="set2" style="display: none;">
         <h1 id="countdown1"></h1>
         <p id="connection1_msg">Connecting Scene in</p>
@@ -202,11 +215,22 @@
             <a-text id="scene2_text3" color="white" value="Connecting..." width="3.5" position="-4 3.1 0.4" rotation="0 90 0" visible="false"></a-text>
             <a-plane id="scene2_button"   ></a-plane>
         </a-entity>
+        
+        <a-entity id="scene3" visible="false">
+             
+            <a-text id="pre_condition_text1" value="Task 1" position="-4 3.8 0.3" rotation="0 90 0" visible="false"></a-text>  
+            <a-text id="pre_condition_text2" value="Pre-Condition" position="-4 3.8 0.6" rotation="0 90 0" visible="false"
+            animation__zoom="property: position; to: -3.5 3.8 0.6; dur: 15000; startEvents: pre_condition_text2-visible; easing: easeOutQuad"></a-text>       
+            
+            <a-text id="pre_condition_text3" value="Follow the audio cues for better accuracy" position="-4 3.8 1.6" rotation="0 90 0" visible="false" width="4"></a-text>  
+
+        </a-entity>
     </a-scene>
     
     <script>
         const scene = document.querySelector("a-scene");
         const scene1 = document.getElementById('scene1');
+        const scene3 = document.getElementById('scene3');
 
         const wait_logo = document.getElementById('wait_logo');
         const sub_logo = document.getElementById('sub_logo');
@@ -216,6 +240,30 @@
         const scene2_text2 = document.getElementById('scene2_text2')
         const scene2_text3 = document.getElementById('scene2_text3');
         const scene2 = document.getElementById('scene2');
+
+        const pre_condition_text1 = document.getElementById('pre_condition_text1');
+        const pre_condition_text2 = document.getElementById('pre_condition_text2');
+        const pre_condition_text3 = document.getElementById('pre_condition_text3');
+        const pre_condition_intro = document.getElementById('pre_condition_intro');
+
+
+        document.getElementById('set1_1_button').addEventListener('click',()=>{
+            //start_actual_vr();
+            document.getElementById('set1_1').style.display='none'
+            document.getElementById('set1_2').style.display='block'
+        });
+
+        document.getElementById('set1_2_button').addEventListener('click',()=>{
+            var name_id = document.getElementById('name_id').value;
+            if(name_id != ""){
+                document.getElementById('set1_2').style.display='none'
+                document.getElementById('set1_3').style.display='block'
+            }
+            else{
+                alert('Invalid ID')
+            }
+            
+        })
 
         function start_actual_vr(){
             scene1.setAttribute('visible','true')
@@ -262,8 +310,40 @@
                 scene2_text2.setAttribute('visible','true');
                 setTimeout(()=>{
                     scene2_text3.setAttribute('visible','true')
+
+                    setTimeout(()=>{
+                        scene3_f();
+                        scene2.setAttribute('visible','false')
+                        intro_audio.pause();
+                    }, 8000);
                 },3000);
             },1500)
+        }
+
+        function scene3_f(){
+            scene3.setAttribute('visible','true');
+            sky.setAttribute('material', 'src', './images/wait_vr.webp');
+            pre_condition_intro.play();
+            
+            setTimeout(()=>{
+                pre_condition_text1.setAttribute('visible','true');
+                setTimeout(()=>{
+                    pre_condition_text1.setAttribute('visible','false');
+                    pre_condition_text2.setAttribute('visible','true');
+                    pre_condition_text2.emit('pre_condition_text2-visible');
+
+                    setTimeout(()=>{
+                        pre_condition_text3.setAttribute('visible','true');
+                        pre_condition_text2.setAttribute('visible','false')
+
+                        setTimeout(()=>{
+                            pre_condition_text3.setAttribute('visible','false');
+                        },2500)
+                    }, 4000)
+            }, 3000)
+               
+
+            }, 1000)
         }
     </script>
 
@@ -286,10 +366,12 @@
         })
 
         document.getElementById('start-vr').addEventListener('click',()=>{
-            document.getElementById('set1').style.display='none'
+                                    start_actual_vr();
+
+           /* document.getElementById('set1').style.display='none'
             document.getElementById('set2').style.display='block';
 
-            startCountdown();
+            startCountdown();*/
         })
 
 
