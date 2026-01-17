@@ -59,16 +59,7 @@
             transform: translate(-50%, -50%);
             opacity: 0.9;
         }
-        
-        #heading::after {
-            content: '';
-            position: absolute;
-            left: 30%;
-            bottom:15px; 
-            width: 40%; 
-            height: 1.5px; 
-            background-color: rgba(255, 255, 255, 0.7); 
-        }
+
 
        
         #heading2{
@@ -416,7 +407,7 @@
         const intro_back_song = document.getElementById('intro_back_song');
 
         document.getElementById('set1_1_button').addEventListener('click',()=>{
-            start_actual_vr();
+            //start_actual_vr();
             document.getElementById('set1_1').style.display='none'
             document.getElementById('set1_1_1').style.display='block'
         });
@@ -442,7 +433,7 @@
 
             if (scene) {
                 scene.enterVR();
-                scene4_f();
+                scene1_f();
             }
         };
 
