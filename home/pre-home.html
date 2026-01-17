@@ -280,7 +280,7 @@
         </a-sphere>
         
         <!-- camera -->
-        <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
+        <a-entity id="camera-rig" position="2 1.6 0" rotation="0 90 0">
             <a-camera id="camera" fov="90" position="0 0 0">
                 <a-cursor
                     id="cursor"
@@ -407,7 +407,7 @@
         const intro_back_song = document.getElementById('intro_back_song');
 
         document.getElementById('set1_1_button').addEventListener('click',()=>{
-            //start_actual_vr();
+            start_actual_vr();
             document.getElementById('set1_1').style.display='none'
             document.getElementById('set1_1_1').style.display='block'
         });
@@ -498,7 +498,7 @@
 
                         setTimeout(()=>{
                             pre_condition_text3.setAttribute('visible','false');
-                            
+                            scene4_f();
                         },2500)
                     }, 4000)
             }, 3000)
