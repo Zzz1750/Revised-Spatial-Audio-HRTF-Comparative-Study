@@ -280,7 +280,7 @@
         </a-sphere>
         
         <!-- camera -->
-        <a-entity id="camera-rig" position="2 0 0" rotation="0 90 0">
+        <a-entity id="camera-rig" position="2 0.5 0" rotation="0 90 0">
             <a-camera id="camera" fov="90" position="0 0 0">
                 <a-cursor
                     id="cursor"
@@ -338,9 +338,9 @@
              With its wide courtyards, tall stone pillars, and grand halls lined with Belgian mirrors and chandeliers, the mansion reflects the Chettiars’ prosperity and their global trade connections. Today, Saratha Vilas stands as both a living heritage space and a cultural landmark of the Chettinad region
              
 
-             - Chettinad Team" position="-4 3.3 2" width="4" rotation="0 90 0" visible="false"></a-text>  
+             - Chettinad Team" position="-4 2 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
 
-            <!-- <a-text id="scene4_exit" value="Redirecting in " position="-4 3.3 0" width="4" rotation="0 90 0" visible="false" ></a-text> -->
+            <a-text id="scene4_exit" value="Connecting Task 1" position="-4 4 1" width="2.5" rotation="0 90 0" visible="false" ></a-text>
              
         </a-entity>
     </a-scene>
@@ -405,9 +405,10 @@
 
         const scene4_text = document.getElementById('scene4_text');
         const intro_back_song = document.getElementById('intro_back_song');
+        const scene4_exit = document.getElementById('scene4_exit');
 
         document.getElementById('set1_1_button').addEventListener('click',()=>{
-            start_actual_vr();
+            //start_actual_vr();
             document.getElementById('set1_1').style.display='none'
             document.getElementById('set1_1_1').style.display='block'
         });
@@ -512,6 +513,10 @@
             sky.setAttribute('material','src','./images/5.webp')
             scene4_text.setAttribute('visible','true')
             intro_back_song.play();
+
+            setTimeout(()=>{
+                scene4_exit.setAttribute('visible','true')
+            }, 1000)
         }
     </script>
 
