@@ -338,9 +338,9 @@
              With its wide courtyards, tall stone pillars, and grand halls lined with Belgian mirrors and chandeliers, the mansion reflects the Chettiars’ prosperity and their global trade connections. Today, Saratha Vilas stands as both a living heritage space and a cultural landmark of the Chettinad region
              
 
-             - Chettinad Team" position="-4 2 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
+             - Chettinad Team" position="-4.5 3 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
 
-            <a-text id="scene4_exit" value="Connecting Task 1" position="-4 4 1" width="2.5" rotation="0 90 0" visible="false" ></a-text>
+            <a-text id="scene4_exit" value="Connecting.." position="-4 5 0.8" width="2.5" rotation="0 90 0" visible="false" ></a-text>
              
         </a-entity>
     </a-scene>
@@ -516,7 +516,12 @@
 
             setTimeout(()=>{
                 scene4_exit.setAttribute('visible','true')
-            }, 1000)
+            }, 4000)
+
+            setTimeout(()=>{
+                window.location.href='./'
+            }, 10000)
+
         }
     </script>
 
