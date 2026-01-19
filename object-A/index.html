@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Object A</title>
+    <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <style>
         body{
@@ -10,24 +12,122 @@
             background-color: black;
             color: white;
         }
-        #start_scene1{
+        #background_image{
+            position: absolute;
+            z-index: -5;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 2;
+        }
+        #set1_heading{
+            z-index: 3;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            font-size: 1.8rem;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        }
+         .common_button{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 25px;
+            font-size: 0.9rem;
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            z-index: 100;
+        }
+        .common_button:hover{
+            color: black;
+            transform: translate(-50%, -50%) scale(1.05);
+            background-color: white;
+        }
+        
+        #id_head{
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            font-size: 1.8rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #nameid{
             position: absolute;
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            padding: 10px 20px;
+            padding: 10px;
             z-index: 100;
-            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            cursor: pointer;
+            font-size: 1rem;
+        }
+        #set3_heading{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            font-size: 1.2rem;
+            font-weight: 200;
+            transform: translate(-50%, -50%);
+            opacity: 0.9;
+        }
+        #super_head{
+            z-index: 3;
+            position: absolute;
+            top: 5%;
+            left: 8%;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transform: translate(-50%, -50%);
+        }
+        #set1_content{
+            z-index: 3;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transform: translate(-50%, -50%);
+        }
+        #set1_button{
+            top: 65%;
         }
     </style>
 </head>
 <body>  
 
-
+    <audio src="./audio/washout_audio.mp3" id="washout_audio"></audio>
     <div id="intro_page" style="display: block;">
-        <button id="start_scene1">Click</button>
+        <h1 id="super_head">Object A</h1>
+        <div id="set1" style="display: block;">
+            <h1 id="set1_heading">Task 1</h1>
+            <p id="set1_content"> <span style="font-size: 1.1rem;"><b>Quick Reminder</b></span> <br><br>
+                ⟢ You will go through 3 versions of the same visuals <br>
+                ⟢ The only difference is the audio format A, B, and C <br>
+                ⟢ Please wear headphones  </p>
+            <button id="set1_button" class="common_button">Start</button>
+        </div>
+
+        <div id="set2" style="display: none;">
+            <h1 id="id_head">Enter ID</h1>
+            <input type="text" name="id_head" id="nameid">
+            <button id="set2_button" class="common_button">Verify</button>
+        </div>
+
+        <div id="set3" style="display: none;">
+            <h1 id="set3_heading">- Remain still and make sure you're in a safe space before putting on the headset -</h1>
+            <button id="start_scene1" class="common_button">・Go Inside VR・</button>
+        </div>
+      
+        <img src="./images/back.JPG" id="background_image" alt="">
     </div>
 
     <a-scene id="scene" vr-mode-ui="enabled: false" xr-mode-ui="enabled: false" visible="false">    
@@ -133,38 +233,6 @@
                 width="4">
             </a-text>
 
-        <!-- hrtf2 reaction text -->
-         <a-text id="hrtf2_reaction_text" 
-                value="HRTF 2 Reaction: " 
-                position="-5 6 -1" 
-                align="center" 
-                rotation="0 90 0"
-                color="yellow"
-                width="4">
-            </a-text>
-
-        <!-- hrtf2 nav text -->
-         <a-text id="hrtf2_nav_text" 
-                value="HRTF 2 Nav: " 
-                position="-5 5.6 -1" 
-                align="center" 
-                rotation="0 90 0"
-                color="yellow"
-                width="4">
-            </a-text>
-
-        <!-- hrtf2 gaze text -->
-         <a-text id="hrtf2_gaze_text" 
-                value="HRTF 2 Gaze: " 
-                position="-5 5.2 -1" 
-                align="center" 
-                rotation="0 90 0"
-                color="yellow"
-                width="4">
-            </a-text>
-
-
-
         <!-- binaural reaction text -->
          <a-text id="binaural_reaction_text" 
                 value="Binaural Reaction: " 
@@ -198,7 +266,7 @@
         <!-- button 1 -->
         <a-entity id="button1" position="-4 3 0" rotation="0 90 0" visible="false">
             <a-plane id="button_plane1" color="white" width="" height="0" opacity="0.8" transparent="true" material="shader: flat" class="clickable"></a-plane>
-            <a-text id="button_text1" value="Audio 1" align="center" color="black" position="0 0 0.01" width="3"></a-text>
+            <a-text id="button_text1" value="Play Audio" align="center" color="black" position="0 0 0.01" width="3"></a-text>
         </a-entity>
 
 
@@ -210,9 +278,41 @@
 
         <!-- Washout Scene -->
          <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
-           <a-text id="washout_text1" value="Washout Period" position="-3 3.5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="countdownText" value="" position="-3 3.2 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-         </a-entity>
+            <a-text id="washout_text1" value="Washout Period" position="-3 5 0" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="countdownText" value="" position="-3 5 -1" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="washout_question" value="The Famous Parking Space Riddle" position="-3 4 0" align="center" color="white" width="4" rotation="0 90 0"></a-text>   
+            <a-text id="washout_answer" visible="false" value="Ans: 87 – Look upside down" position="-3 1.5 0" align="center" color="green" width="3" rotation="0 90 0"></a-text>   
+            <a-image src="./images/puzzle1.webp" position="-3 2.8 0" width="3" height="2" rotation="0 90 0">
+            </a-image>
+        </a-entity>
+
+
+        <!-- Question Scene -->
+        <a-entity id="questions" visible="false">
+                <a-text id="question_text" value="" 
+                    width="4" position="-4 5 1.5" color="white" rotation="0 90 0"> 
+                </a-text>
+
+                <!-- Option A -->
+                <a-plane id="answer1" width="0" height="0" position="-4 4 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="clickable">
+                    <a-text id="answer1_text" color="black" width="3" value="" align="center"></a-text>
+                </a-plane>
+
+                <!-- Option B -->
+                <a-plane id="answer2" width="0" height="0" position="-4 3.5 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="clickable">
+                    <a-text id="answer2_text" color="black" width="3" value="" align="center"></a-text>
+                </a-plane>
+
+                <!-- Option C -->
+                <a-plane id="answer3" width="0" height="0" position="-4 3 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="clickable">
+                    <a-text id="answer3_text" color="black" width="3" value="" align="center"></a-text>
+                </a-plane>
+
+                <!-- Option D -->
+                <a-plane id="answer4" width="0" height="0" position="-4 2.5 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="clickable">
+                    <a-text id="answer4_text" color="black" width="3" value="" align="center"></a-text>
+                </a-plane>
+        </a-entity>
 
         <!-- sky sphere -->
         <a-sphere 
@@ -257,7 +357,6 @@
        <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
         <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
-        <a-entity id="hrtf2_audio" sound="src: ../audio/object1_hrtf2.wav; autoplay: false; positional: false"></a-entity>
         <a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false" position="-10.65944 0.49953 -6.22973"></a-entity>
 
     </a-scene>
@@ -273,19 +372,20 @@
         const object1_reaction_text = document.getElementById('object1_reaction_text');     
         const button1 = document.getElementById('button1');
         const button_plane1 = document.getElementById('button_plane1');
-        const button_text1 = document.getElementById('button_text1');
 
         const stereo_audio = document.getElementById('stereo_audio');
         const hrtf1_audio = document.getElementById('hrtf1_audio');
-        const hrtf2_audio = document.getElementById('hrtf2_audio');
         const binaural_audio = document.getElementById('binaural_audio');
 
         const look_panel = document.getElementById('look_panel');
         const look_panel_plane = document.getElementById('look_panel_plane');
         const look_panel_text = document.getElementById('look_panel_text');
         const washout_delay_text = document.getElementById('washout_delay_text');
+        const washout_audio = document.getElementById('washout_audio');
+        const washout_answer = document.getElementById('washout_answer');
 
-        var main_controller = 1;
+
+
         var scene_controller = 1;
         //database values
         var stereo_reaction_time = 0;
@@ -296,13 +396,46 @@
         var hrtf1_nav_result = 0;
         var hrtf1_total_gaze = 0;
 
-        var hrtf2_reaction_time = 0;
-        var hrtf2_nav_result = 0;
-        var hrtf2_total_gaze = 0;
-
         var binaural_reaction_time = 0;
         var binaural_nav_result = 0;
         var binaural_total_gaze = 0;
+
+        //where 1: Stereo, 2: HRTF2 and 3: Binaural 
+
+        const combinations = [
+            [1, 2, 3],
+            [1, 3, 2],
+            [2, 1, 3],
+            [2, 3, 1],
+            [3, 1, 2],
+            [3, 2, 1]
+        ];
+
+        //random combination chooser
+        function random_combination_chooser(){
+            return Math.floor(Math.random() * combinations.length);
+        }
+
+        var picked_combination = combinations[random_combination_chooser()];
+        console.log("Selected combination:", picked_combination);
+
+        var trialIndex = 0; // Start with first trial
+
+        function getCurrentTrial() {
+            if (trialIndex < picked_combination.length) {
+                return picked_combination[trialIndex];
+            }
+            return null; // All trials completed
+        }
+
+        function moveToNextTrial() {
+            trialIndex++;
+            if (trialIndex >= picked_combination.length) {
+                console.log('All trials completed!');
+                // You might want to show an ending screen here
+            }
+        }
+
 
         //a-scene setups
         function scene1(){
@@ -317,20 +450,238 @@
         }
 
         function washout(){
-            sky.setAttribute('material', 'src', './images/stierberg_sunrise_2k.png'); 
+            sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
             document.getElementById('scene1').setAttribute('visible','false');
             document.getElementById('washout_scene').setAttribute('visible','true');  
             scene_controller = 0; 
+            setTimeout
+            washout_audio.play();
+            setTimeout(()=>{
+                washout_answer.setAttribute('visible','true');
+            }, 12000)
             startCountdown('countdownText');     
         }
+
         document.getElementById('start_scene1').addEventListener('click',()=>{
             document.getElementById('intro_page').style.display='none';
+            actual_enter_vr();
+        });
+
+
+
+
+       //Question Controller
+       const questions = document.getElementById('questions');
+
+       const answer1 = document.getElementById('answer1');
+       const answer2 = document.getElementById('answer2');
+       const answer3 = document.getElementById('answer3');
+       const answer4 = document.getElementById('answer4');
+
+       var question_text = document.getElementById('question_text');
+       var answer1_text = document.getElementById('answer1_text')
+       var answer2_text = document.getElementById('answer2_text')
+       var answer3_text = document.getElementById('answer3_text')
+       var answer4_text = document.getElementById('answer4_text')
+
+
+       var stereo_counter = 1; 
+
+
+       //stereo_question1_answer
+       var stereo_question1_answer;
+       var stereo_question2_answer;
+       var stereo_question3_answer;
+       var stereo_question4_answer;
+       var stereo_question5_answer;
+
+        
+       function answer_button_listeners() {
+            return new Promise((resolve) => {
+                answer1.addEventListener('click', function(evt) {
+                    resolve('Option A');
+                });
+
+                answer2.addEventListener('click', function(evt) {
+                    resolve('Option B');
+                });
+
+                answer3.addEventListener('click', function(evt) {
+                    resolve('Option C');
+                });
+
+                answer4.addEventListener('click', function(evt) {
+                    resolve('Option D');
+                });
+            });
+        }
+
+
+
+        //hover effect ( not efficient, edit when u have time)
+        answer1.addEventListener('mouseenter', function() {
+            answer1.setAttribute('color', '#FF9800');
+        });
+        answer1.addEventListener('mouseleave', function() {
+            answer1.setAttribute('color', 'white');
+        });
+
+        answer2.addEventListener('mouseenter', function() {
+            answer2.setAttribute('color', '#FF9800');
+        });
+        answer2.addEventListener('mouseleave', function() {
+            answer2.setAttribute('color', 'white');
+        });
+
+        answer3.addEventListener('mouseenter', function() {
+            answer3.setAttribute('color', '#FF9800');
+        });
+        answer3.addEventListener('mouseleave', function() {
+            answer3.setAttribute('color', 'white');
+        });
+
+        answer4.addEventListener('mouseenter', function() {
+            answer4.setAttribute('color', '#FF9800');
+        });
+        answer4.addEventListener('mouseleave', function() {
+            answer4.setAttribute('color', 'white');
+        });
+
+
+        function stereo_question_controller(){
+            sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
+            document.getElementById('scene1').setAttribute('visible','false');
+            questions.setAttribute('visible','true');
+            
+            answer1.setAttribute('width','3')
+            answer1.setAttribute('height','0.4')
+            
+            answer2.setAttribute('width','3')
+            answer2.setAttribute('height','0.4')
+            
+            answer3.setAttribute('width','3')
+            answer3.setAttribute('height','0.4')
+
+            answer4.setAttribute('width','3')
+            answer4.setAttribute('height','0.4')
+
+            
+            stereo_question_feeder();
+
+            async function stereo_question_feeder() {
+            if (stereo_counter <= 5) {
+                switch (stereo_counter) {
+                    case 1: 
+                        question_text.setAttribute('value', "Q1. On which side of the doorway was the elephant placed?");
+                        answer1_text.setAttribute('value', 'A. Left');
+                        answer2_text.setAttribute('value', 'B. Right');
+                        answer3_text.setAttribute('value', 'C. Center');
+                        answer4_text.setAttribute('value', 'D. Not sure');
+
+                        // Get the answer
+                        stereo_question1_answer = await answer_button_listeners();
+                        console.log("User selected for 1:", stereo_question1_answer);
+                        
+                        // Move to next question
+                        stereo_counter++;
+                        stereo_question_feeder();
+                        break;
+
+                    case 2: 
+                        question_text.setAttribute('value', "Q2. Where did the narration voice seem to be located?");
+                        answer1_text.setAttribute('value', 'A. Out in the room near the elephant');
+                        answer2_text.setAttribute('value', 'B. Out in the room but farther away');
+                        answer3_text.setAttribute('value', 'C. Inside my head / no clear location');
+                        answer4_text.setAttribute('value', 'D. From the opposite side of the room');
+
+                        // Get the answer
+                        stereo_question2_answer = await answer_button_listeners();
+                        console.log("User selected for 2:", stereo_question2_answer);
+                        
+                        // Move to next question
+                        stereo_counter++;
+                        stereo_question_feeder();
+                        break;
+
+                    case 3: 
+                        question_text.setAttribute('value', "Q3. In the narration, a raised trunk was interpreted as…");
+                        answer1_text.setAttribute('value', 'A. Steady watchfulness');
+                        answer2_text.setAttribute('value', 'B. Aggression');
+                        answer3_text.setAttribute('value', 'C. Auspicious—bringing good fortune');
+                        answer4_text.setAttribute('value', 'D. Purely decorative');
+
+                        // Get the answer
+                        stereo_question3_answer = await answer_button_listeners();
+                        console.log("User selected for 3:", stereo_question3_answer);
+                        
+                        // Move to next question
+                        stereo_counter++;
+                        stereo_question_feeder();
+                        break;
+
+                    case 4: 
+                        question_text.setAttribute('value', "Q4. The voice felt located out in the room, not inside my head.");
+                        answer1_text.setAttribute('value', '1. Strongly Agree');
+                        answer2_text.setAttribute('value', '2');
+                        answer3_text.setAttribute('value', '3');
+                        answer4_text.setAttribute('value', '4. Strongly Disagree');
+
+                        // Get the answer
+                        stereo_question4_answer = await answer_button_listeners();
+                        console.log("User selected for 4:", stereo_question4_answer);
+                        
+                        // Move to next question
+                        stereo_counter++;
+                        stereo_question_feeder();
+                        break;
+                    
+                    case 5: 
+                        question_text.setAttribute('value', "Q5.  I was fully focused on the narration during this audio.");
+                        answer1_text.setAttribute('value', '1. Strongly Agree');
+                        answer2_text.setAttribute('value', '2');
+                        answer3_text.setAttribute('value', '3');
+                        answer4_text.setAttribute('value', '4. Strongly Disagree');
+
+                        // Get the answer
+                        stereo_question5_answer = await answer_button_listeners();
+                        console.log("User selected for 5:", stereo_question5_answer);
+
+                        question_element_clearer();
+                        
+                        break;
+                }
+                }
+            }
+        }
+
+        function question_element_clearer(){
+            questions.setAttribute('visible','false');
+            answer1.setAttribute('width','0')
+            answer1.setAttribute('height','0')
+            
+            answer2.setAttribute('width','0')
+            answer2.setAttribute('height','0')
+            
+            answer3.setAttribute('width','0')
+            answer3.setAttribute('height','0')
+
+            answer4.setAttribute('width','0')
+            answer4.setAttribute('height','0')
+            call_washout();
+        }
+
+
+
+        //entering VR ( change here for testing )
+        function actual_enter_vr(){
+                        document.getElementById('intro_page').style.display='none'; //remove this 
+
             scene.setAttribute('visible','true');
             if (scene) {
                 scene.enterVR();
-                scene1();
+                stereo_question_controller();
             }
-        });
+        }
         
 
         //Navigation Error System
@@ -459,10 +810,18 @@
                 washout_delay_text.setAttribute('visible','false');
             },2000);
         }
+
         function Player(){
             if(scene_controller == 1){
-                switch (main_controller) {
+                
+                const currentTrial = getCurrentTrial();
+                if (currentTrial === null) {
+                    console.log("All trials completed");
+                    return;
+                }
+                switch (currentTrial) {
                 case 1:
+                console.log("Trial " + (trialIndex + 1) + "/3: Stereo audio");
                     console.log("audio 1 - stereo");
                     gazeData.object1.time=0;
                     stereo_audio.components.sound.playSound();
@@ -483,12 +842,13 @@
                         document.getElementById('stereo_nav_text').setAttribute('value',`Stereo Nav: ${stereo_nav_result}`);
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                        button_text1.setAttribute('value','audio2');
-                        call_washout();
                     },51000);
+                    stereo_question_controller();
                     break;
                 
                 case 2:
+                    console.log("Trial " + (trialIndex + 1) + "/3: HRTF1 audio");
+
                     console.log("audio 2 - hrtf 1");
                     gazeData.object1.time=0;
                     hrtf1_audio.components.sound.playSound();
@@ -509,37 +869,13 @@
                         document.getElementById('hrtf1_nav_text').setAttribute('value',`HRTF1 Nav: ${hrtf1_nav_result}`);
                         document.getElementById('hrtf1_reaction_text').setAttribute('value',`HRTF1 Reaction: ${hrtf1_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                        button_text1.setAttribute('value','audio 3');
-                        call_washout();
                     },51000);
                     break;
+            
                 case 3:
-                    console.log("audio 3 - hrtf 2");
-                    gazeData.object1.time=0;
-                    hrtf2_audio.components.sound.playSound();
+                    console.log("Trial " + (trialIndex + 1) + "/3: Binaural audio");
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
-                        hrtf2_nav_result = result;
-                        object1_dummy_text.setAttribute('value', `HRTF 2 Nav: ${hrtf2_nav_result}`);
-                    });
-                    
-                    check_reaction_time(51000, object_plane, (time) => {
-                        hrtf2_reaction_time = time;
-                        object1_reaction_text.setAttribute('value', `HRTF 2 Reaction: ${hrtf2_reaction_time}s`);
-                    });
-
-                    setTimeout(()=>{
-                        hrtf2_total_gaze = gazeData.object1.time;
-                        document.getElementById('hrtf2_gaze_text').setAttribute('value',`HRTF2 Gaze: ${hrtf2_total_gaze}`);
-                        document.getElementById('hrtf2_nav_text').setAttribute('value',`HRTF2 Nav: ${hrtf2_nav_result}`);
-                        document.getElementById('hrtf2_reaction_text').setAttribute('value',`HRTF2 Reaction: ${hrtf2_reaction_time}`);
-                        washout_delay_text.setAttribute('visible','true');
-                        button_text1.setAttribute('value','audio 4');
-                        call_washout();
-                    },51000);
-                    break;
-                case 4:
-                    console.log("audio 4 - binaural");
+                    console.log("audio 3 - binaural");
                     gazeData.object1.time=0;
                     binaural_audio.components.sound.playSound();
 
@@ -559,42 +895,72 @@
                         document.getElementById('binaural_nav_text').setAttribute('value',`Binaural Nav: ${binaural_nav_result}`);
                         document.getElementById('binaural_reaction_text').setAttribute('value',`Binaural Reaction: ${binaural_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                        button_text1.setAttribute('value','audio 4');
+
                     },51000);
                     break;
-            }
-            main_controller++;
+                }
+           
             }
             
         }
-
+        
+        
     </script>
 
     <script>
-    let timer;
+            let timer;
 
-    function startCountdown(elementId, startValue = 20, onFinish = () => console.log("Hello World")) {
-        const textEl = document.querySelector(`#${elementId}`);
-        if (!textEl) {
-        console.error(`Element with id "${elementId}" not found.`);
-        return;
-        }
+            function startCountdown(elementId, startValue = 20, onFinish = () => console.log("Count Down Completed")) {
+                const textEl = document.querySelector(`#${elementId}`);
+                if (!textEl) {
+                console.error(`Element with id "${elementId}" not found.`);
+                return;
+                }
 
-        clearInterval(timer);
-        let count = startValue;
+                clearInterval(timer);
+                let count = startValue;
 
-        timer = setInterval(() => {
-        textEl.setAttribute('value', count);
-        if (count === 0) {
-            clearInterval(timer);
-            scene1();
-            look_panel_returner();
-            scene_controller = 1;
-        } else {
-            count--;
-        }
-        }, 1000);
-    }
+                timer = setInterval(() => {
+                textEl.setAttribute('value', count);
+                if (count === 0) {
+                    washout_audio.pause();
+                    washout_audio.currentTime = 0; 
+                    clearInterval(timer);
+                    moveToNextTrial();
+                    scene1();
+                    look_panel_returner();
+                    scene_controller = 1;
+                } else {
+                    count--;
+                }
+                }, 1000);
+            }
+
+
+
+            const set1_button = document.getElementById('set1_button');
+            set1_button.addEventListener('click',()=>{
+                document.getElementById('set1').style.display='none'
+                document.getElementById('set2').style.display='block';
+                actual_enter_vr(); //for testing remove this later
+            })
+
+            const set2_button = document.getElementById('set2_button');
+            const nameid = document.getElementById('nameid');
+
+            set2_button.addEventListener('click', () => {
+                const value = nameid.value.trim();
+
+                if (!value) {
+                    alert('Invalid ID');
+                    nameid.focus();
+                    return;
+                }
+
+                document.getElementById('set2').style.display='none';
+                document.getElementById('set3').style.display='block';
+            });
+
     </script>
 
 </body>
