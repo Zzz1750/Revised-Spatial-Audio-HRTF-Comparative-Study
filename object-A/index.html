@@ -287,12 +287,11 @@
 
         <!-- Washout Scene -->
          <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
-            <a-text id="washout_text1" value="Washout Period" position="-3 5 0.2" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="countdownText" value="" position="-3 5 -0.8" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="washout_question" value="The Famous Parking Space Riddle" position="-3 4.5 0" align="center" color="white" width="4" rotation="0 90 0"></a-text>   
-            <a-text id="washout_answer" visible="false" value="Ans: 87 – Look upside down" position="-3 2 0" align="center" color="green" width="3" rotation="0 90 0"></a-text>   
-            <a-image src="./images/puzzle1.webp" position="-3 3.2 0" width="3" height="2" rotation="0 90 0">
-            </a-image>
+            <a-text id="washout_text1" value="Washout Period" position="-4 5 0.2" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="countdownText" value="" position="-4 5 -0.8" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
+            <a-text id="washout_question" value="" position="-4 4.5 0" align="center" color="white" width="4" rotation="0 90 0"></a-text>   
+            <a-text id="washout_answer" visible="false" value="" position="-4 2 0" align="center" color="green" width="3" rotation="0 90 0"></a-text>   
+            <a-image src="" id="washout_image" position="-4 3.2 0" width="3" height="2" rotation="0 90 0"></a-image>
         </a-entity>
 
 
@@ -409,9 +408,13 @@
         const look_panel = document.getElementById('look_panel');
         const look_panel_plane = document.getElementById('look_panel_plane');
         const look_panel_text = document.getElementById('look_panel_text');
+
         const washout_delay_text = document.getElementById('washout_delay_text');
         const washout_audio = document.getElementById('washout_audio');
         const washout_answer = document.getElementById('washout_answer');
+        const washout_question = document.getElementById('washout_question');
+        const washout_image = document.getElementById('washout_image');
+   
 
 
         const to_washout_redirecter = document.getElementById('to_washout_redirecter');
@@ -546,12 +549,13 @@
         var binaural_question4_answer;
         var binaural_question5_answer;
 
-        var washout_counter = 0;
+        var washout_counter = 1;
 
 
         
        function answer_button_listeners() {
             return new Promise((resolve) => {
+
                 answer1.addEventListener('click', function(evt) {
                     resolve('Option A');
                 });
@@ -616,6 +620,7 @@
         //stereo_questions
         function stereo_question_controller(){
             sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
+            question_text.setAttribute('visible', 'true')
             document.getElementById('scene1').setAttribute('visible','false');
             questions.setAttribute('visible','true');
             
@@ -851,7 +856,7 @@
             binaural_question_feeder();
 
             async function binaural_question_feeder() {
-            console.log('running hrtf1')
+            console.log('running binaural')
             if (binaural_counter <= 5) {
                 switch (binaural_counter) {
                     case 1: 
@@ -952,7 +957,7 @@
             answer4.setAttribute('height','0')
             to_washout_redirecter.setAttribute('visible','true');
             question_text.setAttribute('visible', 'false')
-            call_washout();
+           call_washout();
         }
 
 
@@ -1090,11 +1095,12 @@
 
 
         function call_washout(){
-            to_washout_redirecter.setAttribute('visible','false');
             setTimeout(()=>{
+                to_washout_redirecter.setAttribute('visible','false');
                 questions.setAttribute('visible','false');
                  if( washout_counter <=2 ){
                     washout();
+                    washout_counter++;
                 }
                 else{
                     end_everything();
@@ -1138,9 +1144,13 @@
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
                     },51000);
-
+                    
                     setTimeout(()=>{
                         stereo_question_controller();
+                        washout_answer.setAttribute('value','Ans: 87 – Look upside down');
+                        washout_question.setAttribute('value','The Famous Parking Space Riddle');
+                        washout_image.setAttribute('src','./images/puzzle1.webp')
+
                         washout_delay_text.setAttribute('visible','false');
                     },55000);
                     break;
@@ -1172,6 +1182,10 @@
 
                     setTimeout(()=>{
                         hrtf1_question_controller();
+                        washout_answer.setAttribute('value','Ans: C');
+                        washout_question.setAttribute('value',' Can you solve this pyramid perspective puzzle?');
+                        washout_image.setAttribute('src','./images/puzzle2.jpg')
+
                         washout_delay_text.setAttribute('visible','false');
                     },55000);
 
@@ -1205,6 +1219,10 @@
 
                     setTimeout(()=>{
                         binaural_question_controller();
+                        washout_answer.setAttribute('value','Ans: ( 10 x 2 + 7 ) x 8 + 3 = 219');
+                        washout_question.setAttribute('value','Toughest math riddle ever!');
+                        washout_image.setAttribute('src','./images/puzzle3.png')
+
                         washout_delay_text.setAttribute('visible','false');
                     },55000);
 
