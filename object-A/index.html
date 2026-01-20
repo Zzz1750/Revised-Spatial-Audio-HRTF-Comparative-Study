@@ -289,9 +289,10 @@
 
         <!-- Question Scene -->
         <a-entity id="questions" visible="false">
-                <a-text id="question_text" value="" 
-                    width="4" position="-4 5 1.5" color="white" rotation="0 90 0"> 
-                </a-text>
+
+                <a-text id="to_washout_redirecter" visible="false" value="Redirecting..." width="4" position="-4 3.5 0.5" color="white" rotation="0 90 0"></a-text>
+                
+                <a-text id="question_text" value="" width="4" position="-4 5 1.5" color="white" rotation="0 90 0"> </a-text>
 
                 <!-- Option A -->
                  <a-entity position="-4 4 0" rotation="0 90 0" >
@@ -389,6 +390,7 @@
         const washout_audio = document.getElementById('washout_audio');
         const washout_answer = document.getElementById('washout_answer');
 
+        const to_washout_redirecter = document.getElementById('to_washout_redirecter');
 
 
         var scene_controller = 1;
@@ -490,15 +492,35 @@
        var answer4_text = document.getElementById('answer4_text')
 
 
-       var stereo_counter = 1; 
+       var stereo_counter = 1;
+       var hrtf1_counter = 1; 
+       var binaural_counter = 1;
 
 
-       //stereo_question1_answer
+       //stereo_question_answer
        var stereo_question1_answer;
        var stereo_question2_answer;
        var stereo_question3_answer;
        var stereo_question4_answer;
        var stereo_question5_answer;
+
+       //hrtf1_question_answer
+        var hrtf1_question1_answer;
+        var hrtf1_question2_answer;
+        var hrtf1_question3_answer;
+        var hrtf1_question4_answer;
+        var hrtf1_question5_answer;
+
+
+        //binaural_question_answer
+        var binaural_question1_answer;
+        var binaural_question2_answer;
+        var binaural_question3_answer;
+        var binaural_question4_answer;
+        var binaural_question5_answer;
+
+        var washout_counter = 0;
+
 
         
        function answer_button_listeners() {
@@ -552,7 +574,7 @@
             answer4.setAttribute('color', 'white');
         });
 
-
+        //stereo_questions
         function stereo_question_controller(){
             sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
             document.getElementById('scene1').setAttribute('visible','false');
@@ -574,6 +596,7 @@
             stereo_question_feeder();
 
             async function stereo_question_feeder() {
+            console.log('running stereo')
             if (stereo_counter <= 5) {
                 switch (stereo_counter) {
                     case 1: 
@@ -659,8 +682,224 @@
             }
         }
 
+        //hrtf1_questions
+        function hrtf1_question_controller(){
+            sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
+            document.getElementById('scene1').setAttribute('visible','false');
+            questions.setAttribute('visible','true');
+            
+            answer1.setAttribute('width','3')
+            answer1.setAttribute('height','0.4')
+            
+            answer2.setAttribute('width','3')
+            answer2.setAttribute('height','0.4')
+            
+            answer3.setAttribute('width','3')
+            answer3.setAttribute('height','0.4')
+
+            answer4.setAttribute('width','3')
+            answer4.setAttribute('height','0.4')
+
+            
+            hrtf1_question_feeder();
+
+            async function hrtf1_question_feeder() {
+            console.log('running hrtf1')
+            if (hrtf1_counter <= 5) {
+                switch (hrtf1_counter) {
+                    case 1: 
+                        question_text.setAttribute('value', "Q1. On which side of the doorway was the elephant placed?");
+                        answer1_text.setAttribute('value', 'A. Left');
+                        answer2_text.setAttribute('value', 'B. Right');
+                        answer3_text.setAttribute('value', 'C. Center');
+                        answer4_text.setAttribute('value', 'D. Not sure');
+
+                        // Get the answer
+                        hrtf1_question1_answer = await answer_button_listeners();
+                        console.log("User selected for 1:", hrtf1_question1_answer);
+                        
+                        // Move to next question
+                        hrtf1_counter++;
+                        hrtf1_question_feeder();
+                        break;
+
+                    case 2: 
+                        question_text.setAttribute('value', "Q2. Where did the narration voice seem to be located?");
+                        answer1_text.setAttribute('value', 'A. Out in the room near the elephant');
+                        answer2_text.setAttribute('value', 'B. Out in the room but farther away');
+                        answer3_text.setAttribute('value', 'C. Inside my head / no clear location');
+                        answer4_text.setAttribute('value', 'D. From the opposite side of the room');
+
+                        // Get the answer
+                        hrtf1_question2_answer = await answer_button_listeners();
+                        console.log("User selected for 2:", hrtf1_question2_answer);
+                        
+                        // Move to next question
+                        hrtf1_counter++;
+                        hrtf1_question_feeder();
+                        break;
+
+                    case 3: 
+                        question_text.setAttribute('value', "Q3. In the narration, a raised trunk was interpreted as…");
+                        answer1_text.setAttribute('value', 'A. Steady watchfulness');
+                        answer2_text.setAttribute('value', 'B. Aggression');
+                        answer3_text.setAttribute('value', 'C. Auspicious—bringing good fortune');
+                        answer4_text.setAttribute('value', 'D. Purely decorative');
+
+                        // Get the answer
+                        hrtf1_question3_answer = await answer_button_listeners();
+                        console.log("User selected for 3:", hrtf1_question3_answer);
+                        
+                        // Move to next question
+                        hrtf1_counter++;
+                        hrtf1_question_feeder();
+                        break;
+
+                    case 4: 
+                        question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
+                        answer1_text.setAttribute('value', 'A. Inside my head');
+                        answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer4_text.setAttribute('value', 'D. From far away in the environment');
+
+                        // Get the answer
+                        hrtf1_question4_answer = await answer_button_listeners();
+                        console.log("User selected for 4:", hrtf1_question4_answer);
+                        
+                        // Move to next question
+                        hrtf1_counter++;
+                        hrtf1_question_feeder();
+                        break;
+                    
+                    case 5: 
+                        question_text.setAttribute('value', "Q5. How would you describe your attention during this audio?");
+                        answer1_text.setAttribute('value', 'A. I was distracted most of the time');
+                        answer2_text.setAttribute('value', 'B. I listened but sometimes lost focus');
+                        answer3_text.setAttribute('value', 'C. I was attentive for most of it');
+                        answer4_text.setAttribute('value', 'D. I was fully focused and absorbed');
+
+                        // Get the answer
+                        hrtf1_question5_answer = await answer_button_listeners();
+                        console.log("User selected for 5:", hrtf1_question5_answer);
+
+                        question_element_clearer();
+                        
+                        break;
+                }
+                }
+            }
+        }
+
+        //binaural questions
+        function binaural_question_controller(){
+            sky.setAttribute('material', 'src', './images/wait_vr.webp'); 
+            document.getElementById('scene1').setAttribute('visible','false');
+            questions.setAttribute('visible','true');
+            
+            answer1.setAttribute('width','3')
+            answer1.setAttribute('height','0.4')
+            
+            answer2.setAttribute('width','3')
+            answer2.setAttribute('height','0.4')
+            
+            answer3.setAttribute('width','3')
+            answer3.setAttribute('height','0.4')
+
+            answer4.setAttribute('width','3')
+            answer4.setAttribute('height','0.4')
+
+            
+            binaural_question_feeder();
+
+            async function binaural_question_feeder() {
+            console.log('running hrtf1')
+            if (binaural_counter <= 5) {
+                switch (binaural_counter) {
+                    case 1: 
+                        question_text.setAttribute('value', "Q1. On which side of the doorway was the elephant placed?");
+                        answer1_text.setAttribute('value', 'A. Left');
+                        answer2_text.setAttribute('value', 'B. Right');
+                        answer3_text.setAttribute('value', 'C. Center');
+                        answer4_text.setAttribute('value', 'D. Not sure');
+
+                        // Get the answer
+                        binaural_question1_answer = await answer_button_listeners();
+                        console.log("User selected for 1:", binaural_question1_answer);
+                        
+                        // Move to next question
+                        binaural_counter++;
+                        binaural_question_feeder();
+                        break;
+
+                    case 2: 
+                        question_text.setAttribute('value', "Q2. Where did the narration voice seem to be located?");
+                        answer1_text.setAttribute('value', 'A. Out in the room near the elephant');
+                        answer2_text.setAttribute('value', 'B. Out in the room but farther away');
+                        answer3_text.setAttribute('value', 'C. Inside my head / no clear location');
+                        answer4_text.setAttribute('value', 'D. From the opposite side of the room');
+
+                        // Get the answer
+                        binaural_question2_answer = await answer_button_listeners();
+                        console.log("User selected for 2:", binaural_question2_answer);
+                        
+                        // Move to next question
+                        binaural_counter++;
+                        binaural_question_feeder();
+                        break;
+
+                    case 3: 
+                        question_text.setAttribute('value', "Q3. In the narration, a raised trunk was interpreted as…");
+                        answer1_text.setAttribute('value', 'A. Steady watchfulness');
+                        answer2_text.setAttribute('value', 'B. Aggression');
+                        answer3_text.setAttribute('value', 'C. Auspicious—bringing good fortune');
+                        answer4_text.setAttribute('value', 'D. Purely decorative');
+
+                        // Get the answer
+                        binaural_question3_answer = await answer_button_listeners();
+                        console.log("User selected for 3:", binaural_question3_answer);
+                        
+                        // Move to next question
+                        binaural_counter++;
+                        binaural_question_feeder();
+                        break;
+
+                    case 4: 
+                        question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
+                        answer1_text.setAttribute('value', 'A. Inside my head');
+                        answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer4_text.setAttribute('value', 'D. From far away in the environment');
+
+                        // Get the answer
+                        binaural_question4_answer = await answer_button_listeners();
+                        console.log("User selected for 4:", binaural_question4_answer);
+                        
+                        // Move to next question
+                        binaural_counter++;
+                        binaural_question_feeder();
+                        break;
+                    
+                    case 5: 
+                        question_text.setAttribute('value', "Q5. How would you describe your attention during this audio?");
+                        answer1_text.setAttribute('value', 'A. I was distracted most of the time');
+                        answer2_text.setAttribute('value', 'B. I listened but sometimes lost focus');
+                        answer3_text.setAttribute('value', 'C. I was attentive for most of it');
+                        answer4_text.setAttribute('value', 'D. I was fully focused and absorbed');
+
+                        // Get the answer
+                        binaural_question5_answer = await answer_button_listeners();
+                        console.log("User selected for 5:", binaural_question5_answer);
+
+                        question_element_clearer();
+                        
+                        break;
+                }
+                }
+            }
+        }
+
+
         function question_element_clearer(){
-            questions.setAttribute('visible','false');
             answer1.setAttribute('width','0')
             answer1.setAttribute('height','0')
             
@@ -672,6 +911,8 @@
 
             answer4.setAttribute('width','0')
             answer4.setAttribute('height','0')
+            to_washout_redirecter.setAttribute('visible','true');
+            question_text.setAttribute('visible', 'false')
             call_washout();
         }
 
@@ -810,10 +1051,16 @@
 
 
         function call_washout(){
+            
             setTimeout(()=>{
-                washout();
-                washout_delay_text.setAttribute('visible','false');
-            },2000);
+                 if( washout_counter <=2 ){
+                    washout();
+                    questions.setAttribute('visible','false');
+                }
+            },2000)
+               
+               
+
         }
 
         function Player(){
@@ -848,7 +1095,11 @@
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
                     },51000);
-                    stereo_question_controller();
+
+                    setTimeout(()=>{
+                        stereo_question_controller();
+                        washout_delay_text.setAttribute('visible','false');
+                    },55000);
                     break;
                 
                 case 2:
@@ -875,6 +1126,12 @@
                         document.getElementById('hrtf1_reaction_text').setAttribute('value',`HRTF1 Reaction: ${hrtf1_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
                     },51000);
+
+                    setTimeout(()=>{
+                        hrtf1_question_controller();
+                        washout_delay_text.setAttribute('visible','false');
+                    },55000);
+
                     break;
             
                 case 3:
@@ -902,6 +1159,12 @@
                         washout_delay_text.setAttribute('visible','true');
 
                     },51000);
+
+                    setTimeout(()=>{
+                        binaural_question_controller();
+                        washout_delay_text.setAttribute('visible','false');
+                    },55000);
+
                     break;
                 }
            
