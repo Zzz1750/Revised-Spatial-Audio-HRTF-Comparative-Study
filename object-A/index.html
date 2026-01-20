@@ -294,24 +294,29 @@
                 </a-text>
 
                 <!-- Option A -->
-                <a-plane id="answer1" width="0" height="0" position="-4 4 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="controller-clickable">
-                    <a-text id="answer1_text" color="black" width="3" value="" align="center" position="0 0 0.1"></a-text>
-                </a-plane>
-
+                 <a-entity position="-4 4 0" rotation="0 90 0" >
+                    <a-plane id="answer1" width="0" height="0"  color="white" opacity="0.9" transparent="true" material="shader: flat" class="controller-clickable"></a-plane>
+                    <a-text id="answer1_text" color="black" width="3" value="" align="center" position="0 0 0"></a-text>
+                 </a-entity>
+                
                 <!-- Option B -->
-                <a-plane id="answer2" width="0" height="0" position="-4 3.5 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat"  class="controller-clickable">
+                <a-entity position="-4 3.5 0" rotation="0 90 0">
+                    <a-plane id="answer2" width="0" height="0" color="white"  opacity="0.9" transparent="true" material="shader: flat"  class="controller-clickable"></a-plane>
                     <a-text id="answer2_text" color="black" width="3" value="" align="center" position="0 0 0.1"></a-text>
-                </a-plane>
+                </a-entity>
 
                 <!-- Option C -->
-                <a-plane id="answer3" width="0" height="0" position="-4 3 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat"  class="controller-clickable">
+                 <a-entity position="-4 3 0"  rotation="0 90 0">
+                    <a-plane id="answer3" width="0" height="0" color="white"  opacity="0.9" transparent="true" material="shader: flat"  class="controller-clickable"></a-plane>
                     <a-text id="answer3_text" color="black" width="3" value="" align="center" position="0 0 0.1"></a-text>
-                </a-plane>
+                 </a-entity>
 
                 <!-- Option D -->
-                <a-plane id="answer4" width="0" height="0" position="-4 2.5 0" color="white" rotation="0 90 0"  opacity="0.9" transparent="true" material="shader: flat" class="controller-clickable">
+                 <a-entity position="-4 2.5 0" rotation="0 90 0">
+                    <a-plane id="answer4" width="0" height="0" color="white"  opacity="0.9" transparent="true" material="shader: flat" class="controller-clickable"> </a-plane>
                     <a-text id="answer4_text" color="black" width="3" value="" align="center" position="0 0 0.1"></a-text>
-                </a-plane>
+                 </a-entity>
+                
         </a-entity>
 
         <!-- sky sphere -->
@@ -326,18 +331,18 @@
 
         <!-- Camera rig with height and rotation -->
         <a-entity id="camera-rig" position="0 1.6 0" rotation="0 90 0">
-    <a-camera id="camera" fov="90" position="0 0 0">
-        <a-cursor
-            id="cursor"
-            raycaster="objects: .ray-target, .head-clickable"
-            fuse="false"
-            fuse-timeout="1500"
-            geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.01"
-            material="color: #FFFFFF; shader: flat; opacity: 0"
-            animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"
-            animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500; startEvents: fusing">
-        </a-cursor>
-    </a-camera>
+            <a-camera id="camera" fov="90" position="0 0 0">
+                <a-cursor
+                    id="cursor"
+                    raycaster="objects: .ray-target, .head-clickable"
+                    fuse="false"
+                    fuse-timeout="1500"
+                    geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.01"
+                    material="color: #FFFFFF; shader: flat; opacity: 0"
+                    animation__click="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150; startEvents: click"
+                    animation__fusing="property: scale; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500; startEvents: fusing">
+                </a-cursor>
+            </a-camera>
 
     <!-- Right controller -->
     <a-entity 
@@ -620,11 +625,11 @@
                         break;
 
                     case 4: 
-                        question_text.setAttribute('value', "Q4. The voice felt located out in the room, not inside my head.");
-                        answer1_text.setAttribute('value', '1. Strongly Agree');
-                        answer2_text.setAttribute('value', '2');
-                        answer3_text.setAttribute('value', '3');
-                        answer4_text.setAttribute('value', '4. Strongly Disagree');
+                        question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
+                        answer1_text.setAttribute('value', 'A. Inside my head');
+                        answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer4_text.setAttribute('value', 'D. From far away in the environment');
 
                         // Get the answer
                         stereo_question4_answer = await answer_button_listeners();
@@ -636,11 +641,11 @@
                         break;
                     
                     case 5: 
-                        question_text.setAttribute('value', "Q5.  I was fully focused on the narration during this audio.");
-                        answer1_text.setAttribute('value', '1. Strongly Agree');
-                        answer2_text.setAttribute('value', '2');
-                        answer3_text.setAttribute('value', '3');
-                        answer4_text.setAttribute('value', '4. Strongly Disagree');
+                        question_text.setAttribute('value', "Q5. How would you describe your attention during this audio?");
+                        answer1_text.setAttribute('value', 'A. I was distracted most of the time');
+                        answer2_text.setAttribute('value', 'B. I listened but sometimes lost focus');
+                        answer3_text.setAttribute('value', 'C. I was attentive for most of it');
+                        answer4_text.setAttribute('value', 'D. I was fully focused and absorbed');
 
                         // Get the answer
                         stereo_question5_answer = await answer_button_listeners();
