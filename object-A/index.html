@@ -964,8 +964,6 @@
 
         //entering VR ( change here for testing )
         function actual_enter_vr(){
-                        document.getElementById('intro_page').style.display='none'; //remove this 
-
             scene.setAttribute('visible','true');
             if (scene) {
                 scene.enterVR();
@@ -1292,7 +1290,6 @@
             set1_button.addEventListener('click',()=>{
                 document.getElementById('set1').style.display='none'
                 document.getElementById('set2').style.display='block';
-                actual_enter_vr(); //for testing remove this later
             })
 
             const set2_button = document.getElementById('set2_button');
