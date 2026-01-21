@@ -5,7 +5,58 @@
     <title>Object A</title>
     <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
+    <!-- A-Frame core -->
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+
+    <!-- Omnitone (Google’s Ambisonic decoder) -->
+    <script src="https://cdn.jsdelivr.net/npm/omnitone@latest/build/omnitone.min.js"></script>
+
+    <script>
+        AFRAME.registerComponent('hrtf-audio', {
+        schema: { src: { type: 'asset' } },
+        async init() {
+            const scene = this.el.sceneEl;
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+            const decoder = Omnitone.createFOARenderer(ctx, {
+                ambisonicOrder: 1,  // FOA = 1st order
+                channelMap: [0, 1, 2, 3]
+            });
+            
+            await decoder.initialize();
+
+            const response = await fetch(this.data.src);
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+
+            const source = ctx.createBufferSource();
+            source.buffer = audioBuffer;
+            source.loop = false;
+
+            source.connect(decoder.input);
+            decoder.output.connect(ctx.destination);
+
+            scene.addEventListener('render-target-loaded', () => {
+                const cam = scene.camera.el.object3D;
+                scene.addEventListener('enter-vr', () => ctx.resume());
+                scene.addEventListener('exit-vr', () => ctx.suspend());
+                
+                scene.addEventListener('beforexrselect', () => {
+                    const rotMat = new THREE.Matrix4().extractRotation(cam.matrixWorld);
+                    decoder.setRotationMatrixFromMatrix4(rotMat);
+                });
+            });
+
+            this.el.addEventListener('play-hrtf', () => {
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                source.start(0);
+            });
+        }
+    });
+
+        </script>
     <style>
         body{
             margin: 0;
@@ -384,7 +435,7 @@
 
        <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
-        <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity id="hrtf1_audio" hrtf-audio="src: ../audio/object1_hrtf1.wav"></a-entity>        
         <a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false;positional: false"></a-entity>
 
     </a-scene>
@@ -1127,12 +1178,12 @@
                     gazeData.object1.time=0;
                     stereo_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
                         stereo_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Stereo Nav: ${stereo_nav_result}`);
                     });
                     
-                    check_reaction_time(51000, object_plane, (time) => {
+                    check_reaction_time(68000, object_plane, (time) => {
                         stereo_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `Stereo Reaction: ${stereo_reaction_time}s`);
                     });
@@ -1160,14 +1211,14 @@
 
                     console.log("audio 2 - hrtf 1");
                     gazeData.object1.time=0;
-                    hrtf1_audio.components.sound.playSound();
+                    document.querySelector('#hrtf1_audio').emit('play-hrtf');
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
                         hrtf1_nav_result = result;
                         object1_dummy_text.setAttribute('value', `HRTF1 Nav: ${hrtf1_nav_result}`);
                     });
                     
-                    check_reaction_time(51000, object_plane, (time) => {
+                    check_reaction_time(68000, object_plane, (time) => {
                         hrtf1_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `HRTF1 Reaction: ${hrtf1_reaction_time}s`);
                     });
@@ -1198,12 +1249,12 @@
                     gazeData.object1.time=0;
                     binaural_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 51000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
                         binaural_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Binaural Nav: ${binaural_nav_result}`);
                     });
                     
-                    check_reaction_time(51000, object_plane, (time) => {
+                    check_reaction_time(68000, object_plane, (time) => {
                         binaural_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `Binaural Reaction: ${binaural_reaction_time}s`);
                     });
