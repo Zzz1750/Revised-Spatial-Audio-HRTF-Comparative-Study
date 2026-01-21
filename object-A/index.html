@@ -6,8 +6,6 @@
     <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-audio-system@^5/dist/aframe-audio-system.min.js"></script>
-
     <style>
         body{
             margin: 0;
@@ -386,13 +384,7 @@
 
        <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
-        <a-entity
-        id="hrtf1_audio"
-        ambisonic="
-            src: ../audio/object1_hrtf1.wav;
-            order: 1;
-            autoplay: false;
-            loop: false;"></a-entity>
+        <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
         <a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false;positional: false"></a-entity>
 
     </a-scene>
@@ -1151,7 +1143,7 @@
                         document.getElementById('stereo_nav_text').setAttribute('value',`Stereo Nav: ${stereo_nav_result}`);
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                    },51000);
+                    },68000);
                     
                     setTimeout(()=>{
                         stereo_question_controller();
@@ -1160,7 +1152,7 @@
                         washout_image.setAttribute('src','./images/puzzle1.webp')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },55000);
+                    },72000);
                     break;
                 
                 case 2:
@@ -1186,7 +1178,7 @@
                         document.getElementById('hrtf1_nav_text').setAttribute('value',`HRTF1 Nav: ${hrtf1_nav_result}`);
                         document.getElementById('hrtf1_reaction_text').setAttribute('value',`HRTF1 Reaction: ${hrtf1_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                    },51000);
+                    },68000);
 
                     setTimeout(()=>{
                         hrtf1_question_controller();
@@ -1195,7 +1187,7 @@
                         washout_image.setAttribute('src','./images/puzzle2.jpg')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },55000);
+                    },72000);
 
                     break;
             
@@ -1223,7 +1215,7 @@
                         document.getElementById('binaural_reaction_text').setAttribute('value',`Binaural Reaction: ${binaural_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
 
-                    },51000);
+                    },68000);
 
                     setTimeout(()=>{
                         binaural_question_controller();
@@ -1232,7 +1224,7 @@
                         washout_image.setAttribute('src','./images/puzzle3.png')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },55000);
+                    },72000);
 
                     break;
                 }
