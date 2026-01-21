@@ -6,6 +6,8 @@
     <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-audio-system@^5/dist/aframe-audio-system.min.js"></script>
+
     <style>
         body{
             margin: 0;
@@ -384,7 +386,13 @@
 
        <!-- Audio Section -->
         <a-entity id="stereo_audio" sound="src: ../audio/object1_stereo.wav; autoplay: false; positional: false"></a-entity>
-        <a-entity id="hrtf1_audio" sound="src: ../audio/object1_hrtf1.wav; autoplay: false; positional: false"></a-entity>
+        <a-entity
+        id="hrtf1_audio"
+        ambisonic="
+            src: ../audio/object1_hrtf1.wav;
+            order: 1;
+            autoplay: false;
+            loop: false;"></a-entity>
         <a-entity id="binaural_audio" sound="src: ../audio/object1_binaural.wav; autoplay: false;positional: false"></a-entity>
 
     </a-scene>
