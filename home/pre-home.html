@@ -116,15 +116,25 @@
         #data_form input{
             padding: 5px;
         }
-        #main_content{
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        #main_content span {
+            display: block;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: -15px;
+        }
+
+        #main_content {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: absolute;
-            top: 45%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 1rem;
             opacity: 0.9;
             text-align: justify;
+            width: 60%; 
+            max-width: 800px;
         }
         #main_sub_content{
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -208,9 +218,9 @@
             <h1 id="heading">𔓘 Soundscapes of Chettinad 𔓘</h1>
             
             <div id="set1_1" style="display: block">
-                 <p id="main_content">Welcome to the Saratha Vilas VR Experiment, <br><br>
-                                    This application is part of a research study exploring how spatial audio shapes learning and engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.
-                                    You will experience four versions of the walkthrough, each with a different audio setup. To keep anonymity, these are simply labelled A, B, and C, Your gaze, reaction, and responses will help us understand how sound influences cultural learning and presence.</p>
+                 <p id="main_content"><span>Welcome to the Saratha Vilas VR Experiment</span> <br><br>
+                                    This application is a part of a research study exploring how spatial audio shapes learning and engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.
+                                    You will experience three versions of the walkthrough, each with a different audio setup. To keep anonymity, these are simply labelled A, B, and C. Your gaze, reaction, and responses will help us understand how sound influences cultural learning and presence.</p>
                 <button class="common_button" id="set1_1_button">Next</button>
             </div>
 
@@ -309,8 +319,8 @@
                 animation__zoom="property: position; to: -2.8 3.1 0; dur: 5000; startEvents: logo-visible; easing: easeInQuad">
             </a-plane>
 
-            <a-text id="sub_logo" color="white" value="A Chettinad Research" width="4" position="-3.6 3.2 0.85" rotation="0 90 0" visible="false"
-                    animation__zoom="property: position; to: -4 3.2 0.85; dur: 8000; startEvents: sublogo-visible; easing: easeOutQuad">
+            <a-text id="sub_logo" color="white" value="Welcome to the Audio Experience" width="4" position="-3.6 3.2 1.3" rotation="0 90 0" visible="false"
+                    animation__zoom="property: position; to: -4 3.2 1.3; dur: 8000; startEvents: sublogo-visible; easing: easeOutQuad">
             </a-text>  
         </a-entity>
 
@@ -322,7 +332,7 @@
         
         <a-entity id="scene3" visible="false">
              
-            <a-text id="pre_condition_text1" value="1. Introduction" position="-4 3.3 0.8" rotation="0 90 0" visible="false"></a-text>  
+            <a-text id="pre_condition_text1" value="" position="-4 3.3 0.8" rotation="0 90 0" visible="false"></a-text>  
             <a-text id="pre_condition_text2" value="SARATHA VILAS - Chettinad" position="-4 3.3 1.37" rotation="0 90 0" visible="false"
             animation__zoom="property: position; to: -3.5 3.3 1.37; dur: 15000; startEvents: pre_condition_text2-visible; easing: easeOutQuad"></a-text>       
             
@@ -331,14 +341,7 @@
         </a-entity>
 
         <a-entity id="scene4" visible="false">
-            <a-text id="scene4_text" value="Welcome to Saratha Vilas,
-
-             a Chettinad heritage mansion built in 1900. Once the home of a prominent Chettiar family, it has been carefully restored to showcase the region’s unique blend of Tamil traditions and global influences. 
-             
-             With its wide courtyards, tall stone pillars, and grand halls lined with Belgian mirrors and chandeliers, the mansion reflects the Chettiars’ prosperity and their global trade connections. Today, Saratha Vilas stands as both a living heritage space and a cultural landmark of the Chettinad region
-             
-
-             - Chettinad Team" position="-4.5 3 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
+            <a-text id="scene4_text" value="" position="-4.5 3 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
 
             <a-text id="scene4_exit" value="Connecting.." position="-4 5 0.8" width="2.5" rotation="0 90 0" visible="false" ></a-text>
              

@@ -1291,7 +1291,7 @@
             end_scene.setAttribute('visible','true')
             document.getElementById('loading_video').play();
 
-            //call backend here
+            push_data() //backend
 
             setTimeout(()=>{
                 document.getElementById('end_scene_set1').setAttribute('visible','false');
@@ -1361,6 +1361,53 @@
                 document.getElementById('set3').style.display='block';
             });
 
+    </script>
+
+    
+    <script>
+        function getCurrentDateTime() {
+            const now = new Date();
+            return now.toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+            });
+        }
+        function push_data(){
+
+        var currentDateTime = getCurrentDateTime();
+
+            async function AddData(){
+                const response = await fetch("https://sheetdb.io/api/v1/8a1oc81um3oy0",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({
+                        data:[
+                            { student_ID: nameid.value, time: currentDateTime, sequence: picked_combination, 
+                                f_stereo_gaze: stereo_total_gaze , f_stereo_nav: stereo_nav_result, f_stereo_react: stereo_reaction_time,
+                                stereo_answer1: stereo_question1_answer , stereo_answer2: stereo_question2_answer, stereo_answer3: stereo_question3_answer, stereo_answer4: stereo_question4_answer,stereo_answer5: stereo_question5_answer,
+                                f_hrtf1_gaze: hrtf1_total_gaze, f_hrtf1_nav: hrtf1_nav_result, f_hrtf1_react: hrtf1_reaction_time,
+                                hrtf1_answer1: hrtf1_question1_answer,hrtf1_answer2: hrtf1_question2_answer,hrtf1_answer3: hrtf1_question3_answer,hrtf1_answer4: hrtf1_question4_answer,hrtf1_answer5: hrtf1_question5_answer,
+                                f_binaural_gaze: binaural_total_gaze,f_binaural_nav: binaural_nav_result,f_binaural_react: binaural_reaction_time,
+                                binaural_answer1: binaural_question1_answer,binaural_answer2: binaural_question2_answer,binaural_answer3: binaural_question3_answer,binaural_answer4: binaural_question4_answer,binaural_answer5: binaural_question5_answer 
+                                
+                            }
+                        ]
+                    })
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                }
+
+                AddData();
+        }
     </script>
 
 </body>
