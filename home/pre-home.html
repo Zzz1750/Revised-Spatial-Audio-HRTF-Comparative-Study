@@ -203,6 +203,37 @@
             font-weight: 200;
             opacity: 0.6;
         }
+        #play_intro_audio {
+            position: absolute;
+            top: 58%;
+            left: 29%;
+            transform: translate(-50%, -50%);
+
+            display: flex;
+            align-items: center;
+            gap: 15px; /* space between icon and text */
+
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+
+            border: none;
+            border-radius: 6px;
+            background-color: #eaeaea;
+            color: rgb(0, 0, 0);
+        }
+
+        #play_icon {
+            width: 20px;
+            height: 20px;
+        }
+        #play_intro_audio:hover {
+            background-color: #d0d0d0;
+        }
+
+        #set1_1_button{
+            top: 70%;
+        }
     </style>
 </head>
 <body>
@@ -211,6 +242,7 @@
     <audio id="left_channel_audio" src="../audio/left_channel.mp3"></audio>
     <audio id="right_channel_audio" src="../audio/right_channel.mp3"></audio>
     <audio id="intro_back_song" src="./audio/intro_back_song.mp3"></audio>
+    <audio id="main_page_audio" src="../audio/main_page_intro.wav"></audio>
 
     <div id="start-precondition-page">
     <img src="../images/back1.JPG" id="main_back" alt="">
@@ -221,7 +253,13 @@
                  <p id="main_content"><span>Welcome to the Saratha Vilas VR Experiment</span> <br><br>
                                     This application is a part of a research study exploring how spatial audio shapes learning and engagement in cultural-heritage environments. Using immersive 360° visuals of Saratha Vilas, a restored Chettinad mansion in Tamil Nadu, the experiment compares different audio conditions.
                                     You will experience three versions of the walkthrough, each with a different audio setup. To keep anonymity, these are simply labelled A, B, and C. Your gaze, reaction, and responses will help us understand how sound influences cultural learning and presence.</p>
-                <button class="common_button" id="set1_1_button">Next</button>
+                
+                <button id="play_intro_audio">
+                    <img id="play_icon" src="../images/play.png" alt="Play">
+                    <span>Play Intro</span>
+                </button>
+                   
+                <button class="common_button" id="set1_1_button" style="display: none;">Next</button>
             </div>
 
             <div id="set1_1_1" style="display: none;">
@@ -341,7 +379,11 @@
         </a-entity>
 
         <a-entity id="scene4" visible="false">
-            <a-text id="scene4_text" value="" position="-4.5 3 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
+            <a-text id="scene4_text" value="Saratha Vilas is a Chettinad heritage mansion built in 1900 and once home to a prominent Chettiar family. 
+            
+            Restored to reflect Tamil traditions and global influences, it features grand courtyards, stone pillars, and halls with Belgian mirrors and chandeliers. 
+            
+            Today, it stands as a cultural landmark of the Chettinad region." position="-4.5 3 2" width="3.5" rotation="0 90 0" visible="false"></a-text>  
 
             <a-text id="scene4_exit" value="Connecting.." position="-4 5 0.8" width="2.5" rotation="0 90 0" visible="false" ></a-text>
              
@@ -412,6 +454,7 @@
 
         document.getElementById('set1_1_button').addEventListener('click',()=>{
             //start_actual_vr();
+            document.getElementById('main_page_audio').pause();
             document.getElementById('set1_1').style.display='none'
             document.getElementById('set1_1_1').style.display='block'
         });
@@ -437,7 +480,7 @@
 
             if (scene) {
                 scene.enterVR();
-                scene1_f();
+                scene4_f();
             }
         };
 
@@ -522,7 +565,7 @@
             }, 10000)
 
             setTimeout(()=>{
-                window.location.href='/Revised-Spatial-Audio-HRTF-Comparative-Study//object-A/index.html'
+                window.location.href='/Revised-Spatial-Audio-HRTF-Comparative-Study/object-A/index.html'
             }, 25000)
 
         }
@@ -592,7 +635,13 @@
 
                     num--;
                 }, 1000);
-            }        
+            }      
+            
+            
+        document.getElementById('play_intro_audio').addEventListener('click',()=>{
+            document.getElementById('main_page_audio').play();
+            document.getElementById('set1_1_button').style.display='block';
+        })
     </script>
 </body>
 </html>
