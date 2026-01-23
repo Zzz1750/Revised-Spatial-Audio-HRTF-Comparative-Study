@@ -548,7 +548,7 @@
             sky.setAttribute('material', 'src', './images/check2.jpg');
             document.getElementById('scene1').setAttribute('visible','true');
             document.getElementById('washout_scene').setAttribute('visible','false');
-            
+            washout_answer.setAttribute('visible','false');
             object1_dummy_text.setAttribute('value','');
             object1_reaction_text.setAttribute('value', '')
             object1_text.setAttribute('value','')
@@ -1218,7 +1218,7 @@
                     setTimeout(()=>{
                         stereo_question_controller();
                         washout_answer.setAttribute('value','Ans: The letter G');
-                        washout_question.setAttribute('value','Question 1');
+                        washout_question.setAttribute('value','Question');
                         washout_image.setAttribute('src','./images/puzzle1.jpg')
 
                         washout_delay_text.setAttribute('visible','false');
@@ -1254,7 +1254,7 @@
                     setTimeout(()=>{
                         hrtf1_question_controller();
                         washout_answer.setAttribute('value','Ans: Yellow paint');
-                        washout_question.setAttribute('value','Question 2');
+                        washout_question.setAttribute('value','Question');
                         washout_image.setAttribute('src','./images/puzzle2.jpg')
 
                         washout_delay_text.setAttribute('visible','false');
@@ -1292,7 +1292,7 @@
                     setTimeout(()=>{
                         binaural_question_controller();
                         washout_answer.setAttribute('value','Ans: Lunch and dinner');
-                        washout_question.setAttribute('value','Question 3');
+                        washout_question.setAttribute('value','Question');
                         washout_image.setAttribute('src','./images/puzzle3.jpg')
 
                         washout_delay_text.setAttribute('visible','false');
