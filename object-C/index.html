@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Object B</title>
+    <title>Object C</title>
     <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
     <!-- A-Frame core -->
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
 
-    <!-- Omnitone (Google’s Ambisonic decoder) -->
+    <!-- Omnitone (Google's Ambisonic decoder) -->
     <script src="https://cdn.jsdelivr.net/npm/omnitone@latest/build/omnitone.min.js"></script>
 
     <script>
@@ -161,9 +161,9 @@
     <audio src="../audio/vr_intro.mp3" id="vr_intro_audio"></audio>
 
     <div id="intro_page" style="display: block;">
-        <h1 id="super_head">Object B</h1>
+        <h1 id="super_head">Object C</h1>
         <div id="set1" style="display: block;">
-            <h1 id="set1_heading">Task 2</h1>
+            <h1 id="set1_heading">Task 3</h1>
             <p id="set1_content"> <span style="font-size: 1.1rem;"><b>Quick Reminder</b></span> <br><br>
                 ⟢ You will go through 3 versions of the same visuals <br>
                 ⟢ The only difference is the audio format A, B, and C <br>
@@ -194,9 +194,10 @@
     <!-- scene1 -->
     <a-entity id="scene1" visible="false" light="defaultLightsEnabled: false">
         
-        <a-plane id="object_plane" class="ray-target head-clickable" width="2.5" height="14" position="-4 5 -7" rotation="0 25 0" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
-        <a-plane id="object_dummy_plane" class="ray-target head-clickable" width="2.5" height="14" position="-4 5 6" rotation="0 145 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
-       
+        <a-plane id="object_plane" class="ray-target head-clickable" width="12" height="12" position="-0.29 12 1" rotation="60 90 90" color="green" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_dummy_plane" class="ray-target head-clickable" width="10" height="10" position="-0 15 -30" rotation="10 0 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+        <a-plane id="object_dummy_plane2" class="ray-target head-clickable" width="10" height="10" position="1 15 30" rotation="10 180 0" color="red" material="opacity: 0.4; shader: flat; transparent: true"> </a-plane>
+
         <!--Object Text -->
         <a-text id="object1_text" 
             value="" 
@@ -340,14 +341,14 @@
          <a-entity id="washout_scene" visible="false" light="defaultLightsEnabled: false">
             <a-text id="washout_text1" value="Washout Period" position="-4 5 0.2" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
             <a-text id="countdownText" value="" position="-4 5 -0.8" align="center" color="yellow" width="4" rotation="0 90 0"></a-text>
-            <a-text id="washout_question" value="Question 1" position="-4 4.13672 1.12" align="center" color="white" width="4" rotation="0 90 0"></a-text>   
-            <a-text id="washout_answer" visible="false" value="check" position="-4 2.3 0" align="center" color="white" width="3" rotation="0 90 0"></a-text>   
+            <a-text id="washout_question" value="" position="-4 4.13672 1.12" align="center" color="white" width="4" rotation="0 90 0"></a-text>   
+            <a-text id="washout_answer" visible="false" value="" position="-4 2.3 0" align="center" color="white" width="3" rotation="0 90 0"></a-text>   
             <a-image src="" id="washout_image" position="-4 3.2 0" width="3" height="1.5" rotation="0 90 0"></a-image>
         </a-entity>
 
         <!-- Intro Scene -->
         <a-entity id="intro_scene" visible="false">
-            <a-text id="intro_head" value="Object B" width="4" position="-4 3.5 0.3" color="white" rotation="0 90 0" animation__zoom="property: position; to: -3 3.5 0.3; dur: 15000; startEvents: intro_head-visible; easing: easeOutQuad"></a-text>
+            <a-text id="intro_head" value="Object C" width="4" position="-4 3.5 0.3" color="white" rotation="0 90 0" animation__zoom="property: position; to: -3 3.5 0.3; dur: 15000; startEvents: intro_head-visible; easing: easeOutQuad"></a-text>
         </a-entity>
 
         <!-- End Scene -->
@@ -359,7 +360,7 @@
             </a-entity>
              
             <a-entity id="end_scene_set2" visible="false">
-                <a-text value="Completed Task 2" width="5" position="-5 4 0.8" color="white" rotation="0 90 0"></a-text>
+                <a-text value="Completed Task 3" width="5" position="-5 4 0.8" color="white" rotation="0 90 0"></a-text>
                 <a-text value="Redirecting..." width="3.5" position="-5 3.5 0.3" color="white" rotation="0 90 0"></a-text>
             </a-entity>
          </a-entity>
@@ -451,6 +452,7 @@
         const object1_text = document.getElementById('object1_text');
         const object_plane = document.getElementById('object_plane');
         const object_dummy_plane = document.getElementById('object_dummy_plane');
+        const object_dummy_plane2 = document.getElementById('object_dummy_plane2');
         const object1_dummy_text = document.getElementById('object1_dummy_text');  
         const object1_reaction_text = document.getElementById('object1_reaction_text');     
         const button1 = document.getElementById('button1');
@@ -546,7 +548,6 @@
             document.getElementById('scene1').setAttribute('visible','false');
             document.getElementById('washout_scene').setAttribute('visible','true');  
             scene_controller = 0; 
-            setTimeout
             washout_audio.play();
             setTimeout(()=>{
                 washout_answer.setAttribute('visible','true');
@@ -750,7 +751,7 @@
                         question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
                         answer1_text.setAttribute('value', 'A. Inside my head');
                         answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
-                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrators supposed position');
                         answer4_text.setAttribute('value', 'D. From far away in the environment');
 
                         // Get the answer
@@ -859,7 +860,7 @@
                         question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
                         answer1_text.setAttribute('value', 'A. Inside my head');
                         answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
-                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrators supposed position');
                         answer4_text.setAttribute('value', 'D. From far away in the environment');
 
                         // Get the answer
@@ -968,7 +969,7 @@
                         question_text.setAttribute('value', "Q4. Where did the voice feel like it was coming from during this audio?");
                         answer1_text.setAttribute('value', 'A. Inside my head');
                         answer2_text.setAttribute('value', 'B. Slightly around me but not clearly in space');
-                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrator’s supposed position');
+                        answer3_text.setAttribute('value', 'C. Out in the room, near the narrators supposed position');
                         answer4_text.setAttribute('value', 'D. From far away in the environment');
 
                         // Get the answer
@@ -1029,8 +1030,8 @@
         }
         
 
-        //Navigation Error System
-        function check_dummy_wins(target_plane, dummy_plane, dummy_time) {
+        //Navigation Error System - UPDATED FOR TWO DUMMIES
+        function check_dummy_wins(target_plane, dummy_plane1, dummy_plane2, dummy_time) {
         return new Promise((resolve) => {
             let finished = false;
 
@@ -1047,7 +1048,8 @@
             }
 
             target_plane.addEventListener('mouseenter', () => handleHover('target'), { once: true });
-            dummy_plane.addEventListener('mouseenter', () => handleHover('dummy'), { once: true });
+            dummy_plane1.addEventListener('mouseenter', () => handleHover('dummy'), { once: true });
+            dummy_plane2.addEventListener('mouseenter', () => handleHover('dummy'), { once: true });
 
             setTimeout(() => {
             if (!finished) {
@@ -1182,7 +1184,8 @@
                     gazeData.object1.time=0;
                     stereo_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    // UPDATED: Now checking both dummy planes
+                    check_dummy_wins(object_plane, object_dummy_plane, object_dummy_plane2, 68000).then(result => {
                         stereo_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Stereo Nav: ${stereo_nav_result}`);
                     });
@@ -1202,7 +1205,7 @@
                     
                     setTimeout(()=>{
                         stereo_question_controller();
-                        washout_answer.setAttribute('value','Ans: Car');
+                        washout_answer.setAttribute('value','Ans: The letter G');
                         washout_question.setAttribute('value','Question 1');
                         washout_image.setAttribute('src','./images/puzzle1.jpg')
 
@@ -1217,7 +1220,8 @@
                     gazeData.object1.time=0;
                     document.querySelector('#hrtf1_audio').emit('play-hrtf');
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    // UPDATED: Now checking both dummy planes
+                    check_dummy_wins(object_plane, object_dummy_plane, object_dummy_plane2, 68000).then(result => {
                         hrtf1_nav_result = result;
                         object1_dummy_text.setAttribute('value', `HRTF1 Nav: ${hrtf1_nav_result}`);
                     });
@@ -1237,7 +1241,7 @@
 
                     setTimeout(()=>{
                         hrtf1_question_controller();
-                        washout_answer.setAttribute('value','Ans: His horse is named Friday');
+                        washout_answer.setAttribute('value','Ans: Yellow paint');
                         washout_question.setAttribute('value','Question 2');
                         washout_image.setAttribute('src','./images/puzzle2.jpg')
 
@@ -1253,7 +1257,8 @@
                     gazeData.object1.time=0;
                     binaural_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    // UPDATED: Now checking both dummy planes
+                    check_dummy_wins(object_plane, object_dummy_plane, object_dummy_plane2, 68000).then(result => {
                         binaural_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Binaural Nav: ${binaural_nav_result}`);
                     });
@@ -1274,7 +1279,7 @@
 
                     setTimeout(()=>{
                         binaural_question_controller();
-                        washout_answer.setAttribute('value','Ans: Ton');
+                        washout_answer.setAttribute('value','Ans: Lunch and dinner');
                         washout_question.setAttribute('value','Question 3');
                         washout_image.setAttribute('src','./images/puzzle3.jpg')
 
@@ -1318,7 +1323,7 @@
                 setTimeout(()=>{
                     console.log('everything ended')
                     scene.exitVR();
-                    window.location.href='/Revised-Spatial-Audio-HRTF-Comparative-Study/object-C/index.html'
+                    window.location.href='/Revised-Spatial-Audio-HRTF-Comparative-Study/home/pre-home.html'
                     // location
                 },8000)
             },4000);
@@ -1360,7 +1365,7 @@
 
             const set1_button = document.getElementById('set1_button');
             set1_button.addEventListener('click',()=>{
-                document.getElementById('set1').style.display='none'
+                document.getElementById('set1').style.display='none';
                 document.getElementById('set2').style.display='block';
             })
 
@@ -1400,7 +1405,7 @@
         var currentDateTime = getCurrentDateTime();
 
             async function AddData(){
-                const response = await fetch("https://sheetdb.io/api/v1/v7jdwvvtk12il",{
+                const response = await fetch("https://sheetdb.io/api/v1/lybjuyvweco32",{
                     method: "POST",
                     headers: {
                         "Content-Type":"application/json"
