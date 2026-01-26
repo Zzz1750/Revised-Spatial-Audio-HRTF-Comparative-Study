@@ -255,7 +255,6 @@
         <img id="puzzle1" src="./images/puzzle1.jpg">
         <img id="puzzle2" src="./images/puzzle2.jpg">
         <img id="puzzle3" src="./images/puzzle3.jpg">
-        <img id="background" src="./images/back.JPG">
         
         <!-- Video -->
         <video id="loadingVideo" src="./images/loading.mp4" autoplay loop crossorigin="anonymous" playsinline webkit-playsinline></video>
@@ -1269,12 +1268,12 @@
                     gazeData.object1.time=0;
                     stereo_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 73000).then(result => {
                         stereo_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Stereo Nav: ${stereo_nav_result}`);
                     });
                     
-                    check_reaction_time(68000, object_plane, (time) => {
+                    check_reaction_time(73000, object_plane, (time) => {
                         stereo_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `Stereo Reaction: ${stereo_reaction_time}s`);
                     });
@@ -1285,7 +1284,7 @@
                         document.getElementById('stereo_nav_text').setAttribute('value',`Stereo Nav: ${stereo_nav_result}`);
                         document.getElementById('stereo_reaction_text').setAttribute('value',`Stereo Reaction: ${stereo_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                    },68000);
+                    },73000);
                     
                     setTimeout(()=>{
                         stereo_question_controller();
@@ -1294,7 +1293,7 @@
                         washout_image.setAttribute('src','#puzzle1')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },72000);
+                    },77000);
                     break;
                 
                 case 2:
@@ -1304,12 +1303,12 @@
                     gazeData.object1.time=0;
                     document.querySelector('#hrtf1_audio').emit('play-hrtf');
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 73000).then(result => {
                         hrtf1_nav_result = result;
                         object1_dummy_text.setAttribute('value', `HRTF1 Nav: ${hrtf1_nav_result}`);
                     });
                     
-                    check_reaction_time(68000, object_plane, (time) => {
+                    check_reaction_time(73000, object_plane, (time) => {
                         hrtf1_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `HRTF1 Reaction: ${hrtf1_reaction_time}s`);
                     });
@@ -1320,7 +1319,7 @@
                         document.getElementById('hrtf1_nav_text').setAttribute('value',`HRTF1 Nav: ${hrtf1_nav_result}`);
                         document.getElementById('hrtf1_reaction_text').setAttribute('value',`HRTF1 Reaction: ${hrtf1_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
-                    },68000);
+                    },73000);
 
                     setTimeout(()=>{
                         hrtf1_question_controller();
@@ -1329,7 +1328,7 @@
                         washout_image.setAttribute('src','#puzzle2')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },72000);
+                    },77000);
 
                     break;
             
@@ -1340,12 +1339,12 @@
                     gazeData.object1.time=0;
                     binaural_audio.components.sound.playSound();
 
-                    check_dummy_wins(object_plane, object_dummy_plane, 68000).then(result => {
+                    check_dummy_wins(object_plane, object_dummy_plane, 73000).then(result => {
                         binaural_nav_result = result;
                         object1_dummy_text.setAttribute('value', `Binaural Nav: ${binaural_nav_result}`);
                     });
                     
-                    check_reaction_time(68000, object_plane, (time) => {
+                    check_reaction_time(73000, object_plane, (time) => {
                         binaural_reaction_time = time;
                         object1_reaction_text.setAttribute('value', `Binaural Reaction: ${binaural_reaction_time}s`);
                     });
@@ -1357,7 +1356,7 @@
                         document.getElementById('binaural_reaction_text').setAttribute('value',`Binaural Reaction: ${binaural_reaction_time}`);
                         washout_delay_text.setAttribute('visible','true');
 
-                    },68000);
+                    },73000);
 
                     setTimeout(()=>{
                         binaural_question_controller();
@@ -1366,7 +1365,7 @@
                         washout_image.setAttribute('src','#puzzle3')
 
                         washout_delay_text.setAttribute('visible','false');
-                    },72000);
+                    },77000);
 
                     break;
                 }
@@ -1393,7 +1392,7 @@
         function end_everything(){
             sky.setAttribute('material', 'src', '#skyWait'); 
             end_scene.setAttribute('visible','true')
-            document.getElementById('loading_video').play();
+            document.getElementById('loadingVideo').play();
 
             push_data() //backend
 
