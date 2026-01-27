@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <link rel="icon" type="image/png" href="./images/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Aldrich&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Background stays on body level */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('./images/back.JPG');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        #heading{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+            font-family: "Inter";
+            font-weight: 400;
+            text-align: justify;
+            width: 70%;
+            max-width: 500px;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        #logo{
+            width: 150px;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #main_c{
+            background-color: rgba(0, 0, 0, 1);
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            height: 500px;
+            margin: 20px;
+            border-radius: 50px;
+            overflow: hidden;
+          
+        }
+    </style>
+    <script>
+        setTimeout(()=>{
+            window.location.href='/Revised-Spatial-Audio-HRTF-Comparative-Study/home/pre-home.html'
+        }, 10000)
+    </script>
+</head>
+<body>
+    <div id="main_c">
+        <img src="../images/3d_logo.jpg" id="logo" alt="">
+        <h1 id="heading">You have successfully completed all 3 audio conditions. <br><br> <br> Your responses will remain anonymous, and the data will only be used for research purposes. <br><br> Thank you for contributing to our study on immersive audio and cultural learning. Your participation helps us better understand how sound shapes engagement in heritage education. <br><br>- Team</h1>
+    </div>
+</body>
+</html>
